@@ -15,8 +15,8 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('username')->unique();
-            $table->string('barcode')->unique()->nullable();
+            $table->string('username', 150)->unique();
+            $table->string('barcode', 30)->unique()->nullable();
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
             $table->boolean('is_healthy')->default(false);

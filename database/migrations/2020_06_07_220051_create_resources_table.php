@@ -17,7 +17,7 @@ class CreateResourcesTable extends Migration
         Schema::create('resources', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->bigIncrements('id');
-            $table->string('name')->unique();
+            $table->string('name', 150)->unique();
             $table->string('short_name')->nullable();
             $table->integer('capacity')->default(0);
             $table->string('color')->nullable();
