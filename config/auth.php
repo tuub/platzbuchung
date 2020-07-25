@@ -61,19 +61,15 @@ return [
     | sources which represent each model / table. These sources may then
     | be assigned to any extra authentication guards you have defined.
     |
-    | Supported: "database", "eloquent"
-    |
+    | Supported: 
+    | - "database", "eloquent" (laravel built-in authentication system)
+    | - "alma" (by https://github.com/tuub/platzbuchung)
+    | - "paia" (by https://github.com/tubhh/platzbuchung)
     */
 
     'providers' => [
-        /* Change to this if you want to use the built-in authentication system.
         'users' => [
-            'driver' => 'eloquent',
-            'model' => App\User::class,
-        ],
-        */
-        'users' => [
-            'driver' => 'alma',
+            'driver' => env('AUTH_METHOD'),
             'model' => App\User::class,
         ],
     ],
