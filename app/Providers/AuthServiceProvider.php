@@ -2,8 +2,7 @@
 
 namespace App\Providers;
 
-//use App\Auth\AlmaUserProvider;
-use App\Auth\AlmaUserProvider;
+use App\Auth as AuthProvider;
 use App\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Auth;
@@ -23,17 +22,31 @@ class AuthServiceProvider extends ServiceProvider
     /**
      * Register any authentication / authorization services.
      *
+     * @todo: - Handle 'eloquent' more elegant
+     * @todo: - Switch isn't exactly beautiful. Maybe create convention for class naming in accordance to AUTH_METHOD?
+     *
      * @return void
      */
     public function boot()
     {
         $this->registerPolicies();
+        
+        // Just return true on builtin method 
+        if (env('AUTH_METHOD') == 'eloquent') return true;
 
-        Auth::provider('alma',function() {
-            return new AlmaUserProvider(new User());
+        Auth::provider(env('AUTH_METHOD'), function() {
+            switch (env('AUTH_METHOD')) {
+                case 'alma': 
+                    return new AuthProvider\AlmaUserProvider(new User());
+                    break;
+                case 'paia': 
+                    return new AuthProvider\PaiaUserProvider(new User());
+                    break;                
+                //default:
+                    // throw error...
+            }
+            
         });
 
-
-        //
     }
 }

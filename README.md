@@ -47,6 +47,7 @@ You will then need to add an `.env` file with your configuration. A boilerplate 
 | APP_LOGO | The path to the logo file | images/logo.svg (points to public/images directory) |
 | TELESCOPE_ENABLED | Whether the debug tool Telescope" should be available under &lt;APP_URL&gt;/telescope | false
 | AUTH_ENDPOINT | Our external authentication server | "https://external.auth.webservice"
+| AUTH_METHOD | Authentication type | possible: "alma", "paia" (GBV), "eloquent" (laravel built-in authentication system)
 | USER_BOOKING_QUOTA | How many bookings are allowed within the displayed date range, starting today | 5 |
 | DISPLAY_DAYS_IN_ADVANCE | How many opening days should be displayed to the user for booking (weekends are currently excluded) | 10 |
 | REPORT_PROCESS_SERVER_HOST | Remote processing server host without protocol, for SCPing the user report (see below) | "remote.process.server" |
@@ -83,8 +84,9 @@ npm run prod
 ## Authentication
 We query an external webservice for authentication via TLS-secured CURL. Due to GDPR 
 we only save the user data that is absolutely needed for running the application in the 
-application database. Our custom authentication driver lives in 
-[app/Auth/AlmaUserProvider.php](app/Auth/AlmaUserProvider.php).
+application database. Custom authentication drivers are 
+* [app/Auth/AlmaUserProvider.php](app/Auth/AlmaUserProvider.php)
+* [app/Auth/PaiaUserProvider.php](app/Auth/PaiaUserProvider.php).
 
 Chances are big that you'll use another road here. Laravel framework 
 provides a convenient way for adding custom-tailored authentication 
@@ -98,29 +100,8 @@ You could also use the built-in authentication system with local database
 tables as the main source. This even provides scaffolding so you should be 
 ready to go in no time.
 
-1. In [config/auth.php](config/auth.php), replace
-    ````
-    'users' => [
-        'driver' => 'alma',
-        'model' => App\User::class,
-    ],
-    ````
-    with this
-    ````
-    'users' => [
-        'driver' => 'eloquent',
-        'model' => App\User::class,
-    ],
-    ````
-
-2. Remove this in [app/Providers/AuthServiceProvider.php](app/Providers/AuthServiceProvider.php):
-    ````
-    Auth::provider('alma',function() {
-        return new AlmaUserProvider(new User());
-    });
-    ````
-
-3. You will need to put back the password field to the users table (which we removed). Just create a new migration:
+1. In [.env](.env.example), set `AUTH_METHOD` to 'eloquent'
+2. You will need to put back the password field to the users table (which we removed). Just create a new migration:
     ````
     php artisan make:migration add_password_to_users
     ````
@@ -141,8 +122,7 @@ ready to go in no time.
         });
     }
     ````
-
-4. [Check out the documentation for scaffolding](https://laravel.com/docs/7.x/authentication)
+3. [Check out the documentation for scaffolding](https://laravel.com/docs/7.x/authentication)
 
 ## Frontend assets compilation
 
