@@ -38,7 +38,7 @@ return [
                 'text_time_slot_is_over' => 'Dieser Slot ist bereits vorbei.',
                 'text_time_slot_is_full' => 'Dieser Slot ist bereits vollständig belegt.',
                 'text_time_slot_already_booked' => 'Sie haben bereits eine Buchung um diese Zeit.',
-                'text_quota_exhausted' => 'Sie haben das Limit von :user_booking_quota erreicht und können deshalb keine neuen Buchungen anlegen.',
+                'text_quota_exhausted' => 'Sie haben das Limit von :user_booking_quota erreicht und können deshalb keine neuen Buchungen anlegen. Ein möglicher Grund: Sie sind noch in der Bibliothek oder haben Sie gerade verlassen, aber nicht ausgecheckt. Dadurch zählt diese Buchung noch als aktiv. Eine Buchung für :user_booking_quota weitere Tage können Sie erst nach dem Check-out durchführen bzw. erst am folgenden Tag, sollten Sie das Checkout vergessen haben.',
             ],
         ],
     ],
@@ -165,7 +165,7 @@ return [
             'usage_notes_general_5' => 'Für den Einlass ins Gebäude ist das Vorzeigen Ihres Bibliotheksausweises (bei TU-Studierenden der Studierendenausweis) erforderlich.',
             'usage_notes_general_6' => 'Aufgrund der Regulierung des Zutritts zum Gebäude kann es zu Wartezeiten kommen. Bitte planen Sie dies ein.',
             'usage_notes_general_7' => 'Das Tragen eines Mund-Nasen-Schutz ist verpflichtend, soweit sie sich nicht auf ihrem Sitzplatz aufhalten.',
-            'usage_notes_general_8' => 'Stornieren Sie Ihre Buchung, falls Sie den Termin nicht wahrnehmen können. Ihre Reservierung verfällt nicht automatisch, wenn Sie sich nicht einchecken.',
+            'usage_notes_general_8' => 'Ihre Reservierung gilt jeweils für den gesamten gebuchten Zeitraum. Sie verfällt nicht automatisch, wenn Sie sich erst im Laufe des Tages oder gar nicht einchecken. Stornieren Sie daher bitte Ihre Buchung, falls Sie den Termin nicht wahrnehmen können.',
         ],
         'usage_notes_in_practice_zb_hl' => 'Vor Ort (Universitätsbibliotheken, Fasanenstr. 88)',
         'usage_notes_in_practice_zb' => [
