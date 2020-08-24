@@ -71,7 +71,7 @@ class Booking extends Model
             'time_slot_id' => $time_slot_id
         ])->get()->count();
 
-        return $capacity-$count;
+        return $capacity - $count;
     }
 
     public static function getBooking($user_id, $date, $resource_id, $time_slot_id)

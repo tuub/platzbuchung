@@ -1,7 +1,6 @@
 <template>
     <div>
         <h1 class="text-center">{{ $t('app.home.title') }}</h1>
-        <p class="block mt-3 mb-3">{{ $t('app.home.intro') }}</p>
         <time-grid :dates="dates"
                    :resources="resources"
                    :time_slots="time_slots"
@@ -22,6 +21,7 @@
         },
         data() {
             return {
+                location: null,
                 grid_data: {},
                 dates: [],
                 resources: [],
@@ -30,9 +30,6 @@
                 next_button: true
             }
         },
-        computed: {
-
-        },
         methods: {
             logout: function () {
                 this.$store.dispatch('logout')
@@ -40,9 +37,7 @@
                         this.$router.push({name: 'login'})
                     })
             },
-
-        },
-
+        }
     }
 </script>
 

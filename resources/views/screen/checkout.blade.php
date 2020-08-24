@@ -14,10 +14,12 @@
 <div class="container h-100">
     <div class="row align-items-center h-100">
         <div class="col-6 mx-auto text-center">
-            <img src="{{ env('APP_LOGO') }}" style="width: 25rem;" />
-            <h1 class="text-2xl font-bold mt-5 mb-5">@lang('app.checkout.title')</h1>
+            <img src="{{ $location->logo_uri }}" style="width: 25rem;" />
+            <h3 class="text-xl font-bold mt-5 mb-0">{{ $location->name }}</h3>
+            <h1 class="text-2xl font-bold mt-3 mb-5">@lang('app.checkout.title')</h1>
             <p class="lead">@lang('app.checkout.text_1')</p>
-            <form action="do_checkout" method="post">
+            <form  action="{{ route('post_checkout') }}" method="post">
+                <input type="hidden" name="location" id="location" value="{{ $location->id }}">
                 <input class="border border-dark rounded w-full py-2 px-3  text-black" type="text" name="barcode" id="barcode" autofocus required>
             </form>
         </div>

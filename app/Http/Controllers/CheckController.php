@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Booking;
 use App\CheckIn;
+use App\Location;
 use App\Library\DateHelper;
 use App\User;
 use Carbon\Carbon;
@@ -13,24 +14,30 @@ class CheckController extends Controller
 {
     /**
      * Renders the checkin page.
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     *
      */
-    public function getCheckin()
+    public function getCheckin($location)
     {
-        return view('screen.checkin');
+        $location = Location::where('uid', $location)->first();
+
+        if ($location) {
+            return view('screen.checkin', compact('location'));
+        }
+
+        abort(404);
     }
 
     /**
      * Renders the checkout page.
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     *
      */
-    public function getCheckout()
+    public function getCheckout($location)
     {
-        return view('screen.checkout');
+        $location = Location::where('uid', $location)->first();
+
+        if ($location) {
+            return view('screen.checkout', compact('location'));
+        }
+
+        abort(404);
     }
 
     /**
@@ -57,19 +64,22 @@ class CheckController extends Controller
         $booking = null;
 
         $barcode = $request->barcode;
+        $location = Location::find($request->location);
         $user = User::where('barcode', $barcode)->first();
 
         if ($user) {
-            $user_bookings = $user->bookings()->get();
+
             $now = Carbon::now();
+
+            $user_bookings = $user->bookings()->get();
+            $user_bookings = $user_bookings->filter(function ($booking) use ($location) {
+                return $booking->resource->location->id == $location->id;
+            });
 
             $valid_booking = $user_bookings->filter(function ($booking) use ($now) {
                 $booking_start = DateHelper::generateDateTimeFromStrings($booking->date, $booking->time_slot->start);
                 $booking_end = DateHelper::generateDateTimeFromStrings($booking->date, $booking->time_slot->end);
-
-                if ($now->isBetween($booking_start, $booking_end)) {
-                    return true;
-                }
+                return $now->isBetween($booking_start, $booking_end);
             })->first();
 
             if ($valid_booking) {
@@ -109,7 +119,7 @@ class CheckController extends Controller
             $text = __('app.checkin.status.checkin_failure.text_no_booking_present');
         }
 
-        return view('screen.checkin_status', compact('check_in', 'title', 'text', 'booking'));
+        return view('screen.checkin_status', compact('check_in', 'title', 'text', 'booking', 'location'));
     }
 
     /**
@@ -134,6 +144,7 @@ class CheckController extends Controller
         $check_out = false;
 
         $barcode = $request->barcode;
+        $location = Location::find($request->location);
         $user = User::where('barcode', $barcode)->first();
 
         if ($user) {
@@ -160,6 +171,6 @@ class CheckController extends Controller
             $text = __('app.checkout.status.checkout_failure.text');
         }
 
-        return view('screen.checkout_status', compact('check_out', 'title', 'text'));
+        return view('screen.checkout_status', compact('check_out', 'title', 'text', 'location'));
     }
 }

@@ -16,8 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'HomeController@index')->name('index');
 Route::get('/grid', 'HomeController@getGridData')->name('get_grid_data');
 
-Route::get('checkin', 'CheckController@getCheckin')->name('get_checkin');
+Route::get('checkin/{location}', 'CheckController@getCheckin')->name('get_checkin');
 Route::post('do_checkin', 'CheckController@postCheckin')->name('post_checkin');
-Route::get('checkout', 'CheckController@getCheckout')->name('get_checkout');
+Route::get('checkout/{location}', 'CheckController@getCheckout')->name('get_checkout');
 Route::post('do_checkout', 'CheckController@postCheckout')->name('post_checkout');
 

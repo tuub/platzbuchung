@@ -13,7 +13,7 @@
 <div class="container h-100">
     <div class="row align-items-center h-100">
         <div class="col-6 mx-auto text-center">
-            <img src="{{ env('APP_LOGO') }}" style="width: 25rem;" />
+            <img src="{{ $location->logo_uri }}" style="width: 25rem;" />
 
             @if($check_out)
                 <h1 class="text-2xl font-bold mt-5 mb-5">@lang('app.checkout.status.checkout_success.title')</h1>
@@ -28,7 +28,7 @@
 </body>
 <script>
     setTimeout(function(){
-        window.location.href = 'checkout';
+        window.location.href = 'checkout/{{ $location->uid }}';
     }, 5000);
 </script>
 </html>

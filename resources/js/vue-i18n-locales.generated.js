@@ -11,8 +11,12 @@ export default {
                 }
             },
             "home": {
-                "title": "Willkommen!",
+                "title": "Platz buchen",
                 "intro": ""
+            },
+            "locations": {
+                "title": "Standorte",
+                "intro": "Bitte wählen Sie einen Standort aus."
             },
             "time_grid": {
                 "intro": "Sie können bis zu {user_booking_quota} Termine innerhalb der folgenden {display_days_in_advance} Öffnungstage reservieren. Es wird die Anzahl der noch verfügbaren Plätze angezeigt. Die Buchung und Nutzung von Arbeitsplätzen ist im Moment nur für TU- und UdK-Angehörige möglich.",
@@ -43,10 +47,11 @@ export default {
                 }
             },
             "bookings": {
-                "title": "Buchungsübersicht",
+                "title": "Meine Buchungen",
                 "intro": "",
                 "label": {
                     "date": "Datum",
+                    "location": "Standort",
                     "resource": "Ort",
                     "start": "Beginn",
                     "end": "Ende"
@@ -159,29 +164,38 @@ export default {
                 "usage_notes_general_hl": "Bitte beachten Sie die folgenden Hinweise zur Nutzung von Arbeitsplätzen",
                 "usage_notes_general": {
                     "usage_notes_general_1": "Eine Arbeitsplatznutzung ist nur nach vorheriger Anmeldung im Buchungssystem möglich.",
-                    "usage_notes_general_2": "Es stehen Termine für den folgenden Zeitraum zur Verfügung: Montag bis Freitag von 10-16 Uhr.",
-                    "usage_notes_general_3": "Vor Ort erfolgt über das Ein- und Auschecken eine Anwesenheitsdokumentation nach §3 <a href=\"https://www.berlin.de/corona/massnahmen/verordnung/\" target=\"_blank\">SARS-CoV-2-Infektionsschutzverordnung</a>.",
-                    "usage_notes_general_4": "Bitte bringen Sie Arbeitsmaterialien wie Laptop, Stifte und Papier mit.",
-                    "usage_notes_general_5": "Für den Einlass ins Gebäude ist das Vorzeigen Ihres Bibliotheksausweises (bei TU-Studierenden der Studierendenausweis) erforderlich.",
-                    "usage_notes_general_6": "Aufgrund der Regulierung des Zutritts zum Gebäude kann es zu Wartezeiten kommen. Bitte planen Sie dies ein.",
-                    "usage_notes_general_7": "Das Tragen eines Mund-Nasen-Schutz ist verpflichtend, soweit sie sich nicht auf ihrem Sitzplatz aufhalten.",
-                    "usage_notes_general_8": "Ihre Reservierung gilt jeweils für den gesamten gebuchten Zeitraum. Sie verfällt nicht automatisch, wenn Sie sich erst im Laufe des Tages oder gar nicht einchecken. Stornieren Sie daher bitte Ihre Buchung, falls Sie den Termin nicht wahrnehmen können."
+                    "usage_notes_general_2": "Vor Ort erfolgt über das Ein- und Auschecken eine Anwesenheitsdokumentation nach §3 <a href=\"https://www.berlin.de/corona/massnahmen/verordnung/\" target=\"_blank\">SARS-CoV-2-Infektionsschutzverordnung</a>.",
+                    "usage_notes_general_3": "Bitte bringen Sie Arbeitsmaterialien wie Laptop, Stifte und Papier mit.",
+                    "usage_notes_general_4": "Für den Einlass ins Gebäude ist das Vorzeigen Ihres Bibliotheksausweises (bei TU-Studierenden der Studierendenausweis) erforderlich.",
+                    "usage_notes_general_5": "Aufgrund der Regulierung des Zutritts zum Gebäude kann es zu Wartezeiten kommen. Bitte planen Sie dies ein.",
+                    "usage_notes_general_6": "Das Tragen eines Mund-Nasen-Schutz ist verpflichtend, soweit sie sich nicht auf ihrem Sitzplatz aufhalten.",
+                    "usage_notes_general_7": "Ihre Reservierung gilt jeweils für den gesamten gebuchten Zeitraum. Sie verfällt nicht automatisch, wenn Sie sich erst im Laufe des Tages oder gar nicht einchecken. Stornieren Sie daher bitte Ihre Buchung, falls Sie den Termin nicht wahrnehmen können."
                 },
-                "usage_notes_in_practice_zb_hl": "Vor Ort (Universitätsbibliotheken, Fasanenstr. 88)",
-                "usage_notes_in_practice_zb": {
-                    "usage_notes_in_practice_1": "Nach dem Betreten des Gebäudes loggen Sie sich am Check-in-Schalter mit Ihrem Bibliotheksausweis (bei TU-Studierenden der Studierendenausweis) ein.",
-                    "usage_notes_in_practice_2": "Bitte nehmen Sie sich einen Korb in der zugewiesenen Etagenfarbe und begeben sich auf direktem Weg zu der Etage, auf der Ihr Sitzplatz gebucht ist. Auf der gebuchten Etage haben Sie freie Sitzplatzwahl.",
-                    "usage_notes_in_practice_3": "Wenn Sie sich im Gebäude bewegen oder eine Pause machen, führen Sie Ihren Korb bitte immer mit sich.",
-                    "usage_notes_in_practice_4": "Ihren Arbeitsplatz reinigen Sie vor und nach der Benutzung mit den bereitgestellten Reinigungsmaterialien.",
-                    "usage_notes_in_practice_5": "Bitte achten Sie darauf, ausreichend Sicherheitsabstand zu anderen Personen zu halten.",
-                    "usage_notes_in_practice_6": "Sanitäranlagen stehen nur zur Einzelnutzung zur Verfügung. Desinfektionsmöglichkeiten werden bereitgestellt.",
-                    "usage_notes_in_practice_7": "Beim Verlassen des Gebäudes loggen Sie sich am Check-out-Schalter mit Ihrem Bibliotheksausweis aus und stellen den Korb zurück."
-                },
-                "usage_notes_in_practice_mathebib_hl": "Vor Ort (Mathematische Fachbibliothek)",
-                "usage_notes_in_practice_mathebib": {
-                    "usage_notes_in_practice_1": "Nach dem Betreten des Mathematik-Gebäudes zeigen Sie bitte die Buchungsbestätigung ausgedruckt oder auf Ihrem Smartphone an der Pförtnerloge vor.",
-                    "usage_notes_in_practice_2": "Nach Prüfung durch das Aufsichtspersonal begeben Sie sich bitte auf direktem Wege in die 1. Etage zur Bibliothek (Raum MA 163).",
-                    "usage_notes_in_practice_3": "Sie werden dort vom Bibliotheksteam empfangen und eingecheckt."
+                "usage_notes_in_practice_hl": "Vor Ort",
+                "usage_notes_in_practice": {
+                    "zb": {
+                        "usage_notes_in_practice_1": "Nach dem Betreten des Gebäudes loggen Sie sich am Check-in-Schalter mit Ihrem Bibliotheksausweis (bei TU-Studierenden der Studierendenausweis) ein.",
+                        "usage_notes_in_practice_2": "Bitte nehmen Sie sich einen Korb in der zugewiesenen Etagenfarbe und begeben sich auf direktem Weg zu der Etage, auf der Ihr Sitzplatz gebucht ist. Auf der gebuchten Etage haben Sie freie Sitzplatzwahl.",
+                        "usage_notes_in_practice_3": "Wenn Sie sich im Gebäude bewegen oder eine Pause machen, führen Sie Ihren Korb bitte immer mit sich.",
+                        "usage_notes_in_practice_4": "Ihren Arbeitsplatz reinigen Sie vor und nach der Benutzung mit den bereitgestellten Reinigungsmaterialien.",
+                        "usage_notes_in_practice_5": "Bitte achten Sie darauf, ausreichend Sicherheitsabstand zu anderen Personen zu halten.",
+                        "usage_notes_in_practice_6": "Sanitäranlagen stehen nur zur Einzelnutzung zur Verfügung. Desinfektionsmöglichkeiten werden bereitgestellt.",
+                        "usage_notes_in_practice_7": "Beim Verlassen des Gebäudes loggen Sie sich am Check-out-Schalter mit Ihrem Bibliotheksausweis aus und stellen den Korb zurück."
+                    },
+                    "mathe": {
+                        "usage_notes_in_practice_1": "Nach dem Betreten des Mathematik-Gebäudes zeigen Sie bitte die Buchungsbestätigung ausgedruckt oder auf Ihrem Smartphone an der Pförtnerloge vor.",
+                        "usage_notes_in_practice_2": "Nach Prüfung durch das Aufsichtspersonal begeben Sie sich bitte auf direktem Wege in die 1. Etage zur Bibliothek (Raum MA 163).",
+                        "usage_notes_in_practice_3": "Sie werden dort vom Bibliotheksteam empfangen und eingecheckt."
+                    },
+                    "dbwm": {
+                        "usage_notes_in_practice_1": "Zum Betreten des Hauptgebäudes zeigen Sie bitte die Buchungsbestätigung ausgedruckt oder auf Ihrem Smartphone an der Pförtnerloge vor.",
+                        "usage_notes_in_practice_2": "Nach Prüfung durch das Aufsichtspersonal begeben Sie sich bitte auf direktem Wege in die 5. Etage zur Bibliothek.",
+                        "usage_notes_in_practice_3": "Bitte beachten Sie, dass die Fahrstühle nur einzeln genutzt werden können und dass im gesamten Hauptgebäude Maskenpflicht besteht. Sonstige Aufenthalte z.B. Pausen sind im Hauptgebäude nicht gestattet.",
+                        "usage_notes_in_practice_4": "Sie werden vor Ort in der Bibliothek vom Bibliotheksteam empfangen und eingecheckt.",
+                        "usage_notes_in_practice_5": "Wenn Sie eine Pause machen und die Bibliothek sowie das Hauptgebäude verlassen, führen Sie Ihren Korb oder den farbigen Einleger bitte immer mit sich. Ihr Platz bleibt reserviert - lassen Sie Pausenkarte und ggf. Korb an dem von Ihnen genutzten Arbeitsplatz stehen.",
+                        "usage_notes_in_practice_6": "Wenn Ihr Bibliotheksaufenthalt für den Tag beendet ist, wenden Sie sich an das Bibliotheksteam zum Auschecken und geben Ihren Korb zurück. Ihr Platz wird wieder frei.",
+                        "usage_notes_in_practice_7": "Bitte verlassen Sie auf direktem Weg die Bibliothek und das Hauptgebäude."
+                    }
                 }
             },
             "checkin": {

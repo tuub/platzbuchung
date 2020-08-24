@@ -53,7 +53,7 @@ const actions = {
         alert.$swal({
             icon: 'error',
             text: message,
-            footer: '<a href="mailto:onitsupport@ub.tu-berlin.de">Contact support</a>'
+            footer: '<a href="mailto:' + process.env.MIX_SUPPORT_EMAIL + '">Contact support</a>'
         });
     },
     ALERT_CLEAR({commit}) {
@@ -127,6 +127,19 @@ const actions = {
             dispatch('TOAST_FAILURE', error);
             reject(error);
         });
+    },
+    /*
+    |--------------------------------------------------------------------------
+    | LOCATION
+    |--------------------------------------------------------------------------
+    */
+    SAVE_LOCATION({commit, dispatch}, payload) {
+        axios.get('api/location/' +  payload.location).then((response) => {
+            commit('saveLocation', response.data);
+        }).catch(error => {
+            console.log(error);
+            reject(error);
+        });
     }
 };
 
@@ -185,6 +198,9 @@ const mutations = {
     saveUserPhone(state, phone) {
         state.USER.phone = phone;
     },
+    saveLocation(state, location) {
+        state.LOCATION = location;
+    }
 };
 
 const getters = {

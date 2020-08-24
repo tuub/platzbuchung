@@ -1,8 +1,12 @@
 import Vue from 'vue';
-import VueRouter from 'vue-router';
-import moment from 'moment-timezone';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
+
+import router from "./_router";
+import filters from './_filter';
+import {store} from "./_store";
+
+import moment from "./_plugins/moment";
 
 import { BootstrapVue } from 'bootstrap-vue';
 
@@ -15,28 +19,25 @@ import VueInternationalization from 'vue-i18n';
 import Locale from './vue-i18n-locales.generated';
 
 import App from "./components/App";
-import Home from "./components/Home";
-import LoginForm from "./components/LoginForm";
-import Bookings from "./components/Bookings";
-import Profile from "./components/Profile";
 
-import {store} from "./_store";
+
 
 Vue.config.productionTip = false;
 Vue.config.silent = true;
 
-Vue.use(VueRouter);
+Object.keys(filters).forEach(key => Vue.filter(key, filters[key]));
+
 Vue.use(VueAxios, axios);
 Vue.use(BootstrapVue);
 Vue.use(VueInternationalization);
+Vue.router = router;
 
 Vue.axios.defaults.headers.common['Accept'] = 'application/json';
 Vue.axios.defaults.headers.common['Content-Type'] = 'application/json;charset=UTF-8';
 Vue.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //Vue.axios.defaults.baseURL = document.head.querySelector('meta[name="api-base-url"]').content + '/api';
 
-moment.locale("de-DE");
-moment.tz.setDefault('Europe/Berlin');
+
 
 const lang = document.documentElement.lang.substr(0, 2);
 const i18n = new VueInternationalization({
@@ -44,57 +45,7 @@ const i18n = new VueInternationalization({
     messages: Locale
 });
 
-const router = new VueRouter({
-    mode: 'hash',
-    routes: [
-        {
-            path: '/',
-            name: 'home',
-            component: Home,
-            meta: {
-                guest: true
-            }
-        },
-        {
-            path: '/login',
-            name: 'login',
-            component: LoginForm,
-            meta: {
-                guest: true
-            }
-        },
-        {
-            path: '/bookings',
-            name: 'bookings',
-            component: Bookings,
-            meta: {
-                requiresAuth: true
-            }
-        },
-        {
-            path: '/profile',
-            name: 'profile',
-            component: Profile,
-            meta: {
-                requiresAuth: true,
-            }
-        },
-    ]
-});
 
-Vue.router = router;
-
-Vue.filter('formatDate', function(value) {
-    if (value) {
-        return moment(value).format('dd, DD.MM.YYYY');
-    }
-});
-
-Vue.filter('formatTime', function(value) {
-    if (value) {
-        return moment(value).format('H:mm');
-    }
-});
 
 Vue.use(VueAuth, {
     auth: authDriver,
@@ -127,29 +78,6 @@ Vue.use(VueAuth, {
 App.router = Vue.router;
 App.store = store;
 App.i18n = i18n;
-
-/*
-App.data = {
-    alert: { type: null, message: null },
-    loading: false,
-    error: false,
-    errors: {},
-};
-*/
-
-router.beforeEach((to, from, next) => {
-    if(to.matched.some(record => record.meta.requiresAuth)) {
-        if (Vue.prototype.$auth.check()) {
-            next();
-        } else {
-            store.dispatch('LOGOUT_ACTION');
-            next({name: 'login'});
-            return;
-        }
-    }
-    next();
-});
-
 
 /*
 App.methods = {

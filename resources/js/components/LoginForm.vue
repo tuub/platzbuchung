@@ -67,7 +67,7 @@
                 if (username && password) {
                     let app = this;
                     store.dispatch('LOGIN_REQUEST');
-                    this.$auth.login({
+                    app.$auth.login({
                         params: {
                             username: username,
                             password: password
@@ -102,7 +102,7 @@
                                                             let responseData = JSON.parse(response.value.config.data);
                                                             store.dispatch('SAVE_USER_PHONE', {phone: responseData.phone});
                                                             store.dispatch('LOGIN_SUCCESS', {response: response, message: app.$i18n.t('app.login.status.login_success')});
-                                                            app.$router.push({name: 'home'});
+                                                            app.$router.push({name: 'home', params: { location: this.$route.params.location }});
                                                         } else {
                                                             store.dispatch('LOGOUT_SUCCESS', {response: response, message: app.$i18n.t('app.logout.status.logout_no_phone')});
                                                         }
@@ -110,7 +110,7 @@
                                                 } else {
                                                     app.submitted = false;
                                                     store.dispatch('LOGIN_SUCCESS', {response: response, message: app.$i18n.t('app.login.status.login_success')});
-                                                    app.$router.push({name: 'home'});
+                                                    app.$router.push(app.$route.query.redirect || '/');
                                                 }
                                             });
                                         });
@@ -128,6 +128,6 @@
                     });
                 }
             }
-        }
+        },
     };
 </script>
