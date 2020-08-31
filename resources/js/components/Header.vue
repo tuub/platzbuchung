@@ -1,7 +1,7 @@
 <template>
     <div class="shadow">
         <b-navbar toggleable="lg" type="light" sticky="true" class="ml-3 mr-3">
-            <b-navbar-brand tag="h1" class="mb-0" :to="{ name: 'home' }">
+            <b-navbar-brand tag="h1" class="mb-0" :to="{ name: 'locations' }">
                 <img :src="logoFile" height="50" width="150" :title="this.$i18n.t('app.main.owner')" :alt="this.$i18n.t('app.main.owner')" />
             </b-navbar-brand>
 
@@ -15,8 +15,12 @@
                 <!-- Right aligned nav items -->
                 <b-navbar-nav class="ml-auto">
 
-                    <b-nav-item exact="true" :to="{ name: 'home' }" class="bg-white">
-                        {{ $t('app.home.title') }}
+                    <b-nav-item exact="true" :to="{ name: 'locations' }" class="bg-white">
+                        {{ $t('app.locations.title') }}
+                    </b-nav-item>
+
+                    <b-nav-item v-if="location" exact="true" :to="{ name: 'home', params: { location: location.uid } }" class="bg-white">
+                        {{ location.name }}: {{ $t('app.home.title') }}
                     </b-nav-item>
 
                     <b-nav-item exact="true" :to="{ name: 'bookings' }" class="bg-white" v-if="isLoggedIn">
@@ -40,21 +44,6 @@
                         <span class="mr-auto font-weight-bold small"> {{ userName }}</span>
                         <b-badge class="ml-1">{{ userBookings.length }}</b-badge>
                     </b-nav-text>
-
-                    <!--
-                    <b-nav-item>
-                        <b-avatar size="sm" class="mr-3"></b-avatar>
-                        {{ userName }}
-                    </b-nav-item>
-
-                    <b-nav-item>
-                        {{ $t('app.main.user.number_of_bookings') }}
-                        <b-badge variant="light">
-                            {{ userBookings.length }}
-                        </b-badge>
-                    </b-nav-item>
-                    -->
-
                     <!--
                     <b-nav-item-dropdown text="Lang" right>
                         <b-dropdown-item href="#">EN</b-dropdown-item>
@@ -91,7 +80,16 @@
                 logoFile: process.env.MIX_APP_LOGO,
             }
         },
+        watch: {
+            location (newLocation, oldLocation) {
+                //console.log(oldLocation);
+                //console.log(newLocation);
+            }
+        },
         computed: {
+            location() {
+                return store.state.LOCATION ?? null;
+            },
             isLoggedIn() {
                 return store.state.STATUS.isLoggedIn || false;
             },
@@ -118,7 +116,7 @@
                     },
                 });
 
-                this.$router.push({name: 'home'}, () => {});
+                this.$router.push({name: 'home', params: { location: this.location } }, () => {});
             }
         }
     }

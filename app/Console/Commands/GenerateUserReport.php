@@ -15,14 +15,14 @@ class GenerateUserReport extends Command
      *
      * @var string
      */
-    protected $signature = 'axxess:user-report {date}';
+    protected $signature = 'platzbuchung:user-report {location} {date}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Generates a user list for a given date.';
+    protected $description = 'Generates a user list for the given location and the given date.';
 
     /**
      * Create a new command instance.
@@ -52,16 +52,19 @@ class GenerateUserReport extends Command
             $remote_file_path = env('REPORT_PROCESS_SERVER_FILE_PATH');
 
             foreach ($check_ins as $check_in) {
-                $users->push([
-                    'barcode' => $check_in->user->barcode,
-                    'phone' => $check_in->user->phone,
-                    'date' => $date->format('d.m.Y'),
-                    'time_from' => Carbon::parse($check_in->check_in)->format('H:i'),
-                    'time_until' => $check_in ?
-                        Carbon::parse($check_in->check_out)->format('H:i') :
-                        Carbon::parse($check_in->booking()->withTrashed()->first()->end)->format('H:i'),
-                    'resource' => $check_in->booking()->withTrashed()->first()->resource->name,
-                ]);
+                $location = $check_in->booking()->withTrashed()->first()->resource->location;
+                if ($location->uid === $this->argument('location')) {
+                    $users->push([
+                        'barcode' => $check_in->user->barcode,
+                        'phone' => $check_in->user->phone,
+                        'date' => $date->format('d.m.Y'),
+                        'time_from' => Carbon::parse($check_in->check_in)->format('H:i'),
+                        'time_until' => $check_in ?
+                            Carbon::parse($check_in->check_out)->format('H:i') :
+                            Carbon::parse($check_in->booking()->withTrashed()->first()->end)->format('H:i'),
+                        'resource' => $location->name. ', ' . $check_in->booking()->withTrashed()->first()->resource->name,
+                    ]);
+                }
             }
 
             if ($users->count() > 0) {

@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -12,6 +13,16 @@ class UserController extends Controller
         }
 
         return response('Not authenticated!', 401);
+    }
+
+    public function getPermissions()
+    {
+        if (auth()->user() && auth()->user()->is_admin) {
+            Log::channel('auth')->info('*** ADMIN ACCESS: ***' . auth()->user()->username);
+            return true;
+        }
+
+        return false;
     }
 
     public function savePhone(Request $request)

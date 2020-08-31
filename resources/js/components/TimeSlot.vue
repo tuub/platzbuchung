@@ -1,14 +1,30 @@
 <template>
-    <button class="time-slot"
-            :data-date="date"
-            :data-resource="resource"
-            :data-time_slot="time_slot"
-            :class="'time-slot-status-' + slotStyle"
-            :disabled="!isBookable"
-            @click="addBooking">
-            <span class="time-slot-time font-weight-bold">{{ time_slot.name }} Uhr</span><br/>
-            <span class="time-slot-count"><countTo :startVal='0' :endVal='slotCount' :duration='500' :autoplay='true'></countTo></span>
-    </button>
+    <div>
+        <template v-if="isLoading">
+            <button class="time-slot">
+                <span class="time-slot-time font-weight-bold text-nowrap">
+                    <Spinner size="small"></Spinner>
+                </span><br/>
+            </button>
+        </template>
+        <template v-else>
+            <button class="time-slot"
+                    :data-date="date"
+                    :data-resource="resource"
+                    :data-time_slot="time_slot"
+                    :class="'time-slot-status-' + slotStyle"
+                    :disabled="!isBookable"
+                    @click="addBooking">
+                    <span class="time-slot-time font-weight-bold text-nowrap">
+                        {{ time_slot.start | formatTimeString }}
+                        -
+                        {{ time_slot.end | formatTimeString }}
+                        Uhr
+                    </span><br/>
+                    <span class="time-slot-count"><countTo :startVal='0' :endVal='slotCount' :duration='500' :autoplay='true'></countTo></span>
+            </button>
+        </template>
+    </div>
 </template>
 <style scoped>
     button:disabled, button[disabled] {
@@ -16,6 +32,7 @@
     }
 </style>
 <script>
+    import Spinner from "./Spinner";
     import countTo from 'vue-count-to';
     import {store} from "../_store";
     import moment from "moment-timezone";
@@ -23,6 +40,7 @@
     export default {
         name: 'TimeSlot',
         components: {
+            Spinner,
             countTo
         },
         props: {
@@ -50,6 +68,7 @@
         data() {
             return {
                 isBooked: false,
+                isLoading: false,
                 myKey: 0
             }
         },
@@ -99,6 +118,7 @@
                         cancelButtonText: this.$i18n.t('app.time_grid.form.create.cancel_value'),
                     }).then((result) => {
                         if (result.value) {
+                            this.isLoading = true;
                             let params = {
                                 date: moment(this.date).format(),
                                 resource: this.resource.id,
@@ -113,6 +133,7 @@
                                     store.dispatch('FETCH_USER_BOOKINGS');
                                     this.$emit('refresh-grid');
                                 }
+                                this.isLoading = false;
                             });
                         }
                     });

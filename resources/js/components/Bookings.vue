@@ -7,7 +7,9 @@
                 <b-thead head-variant="dark">
                     <b-tr>
                         <b-th>{{ $t('app.bookings.label.date') }}</b-th>
-                        <b-th>{{ $t('app.bookings.label.resource') }}</b-th>
+                        <b-th class="text-left">{{ $t('app.bookings.label.location') }}
+                        </b-th>
+                        <b-th class="text-left">{{ $t('app.bookings.label.resource') }}</b-th>
                         <b-th>{{ $t('app.bookings.label.start') }}</b-th>
                         <b-th>{{ $t('app.bookings.label.end') }}</b-th>
                         <b-th></b-th>
@@ -16,10 +18,15 @@
                 </b-thead>
                 <b-tbody>
                     <b-tr v-for="booking in bookings" v-bind:key="booking.id">
-                        <b-td>{{ booking.date | formatDate }}</b-td>
-                        <b-td>{{ booking.resource.name }}</b-td>
-                        <b-td>{{ booking.start | formatTime }}</b-td>
-                        <b-td>{{ booking.end | formatTime }}</b-td>
+                        <b-td class="text-left">{{ booking.date | formatDate }}</b-td>
+                        <b-td class="text-left">
+                            <b-link :to="{ name: 'home', params: { location: booking.resource.location.uid } }" @click="persistLocation(booking.resource.location.uid)">
+                                {{ booking.resource.location.name }}
+                            </b-link>
+                        </b-td>
+                        <b-td class="text-left">{{ booking.resource.name }}</b-td>
+                        <b-td>{{ booking.start | formatDateTimeString }}</b-td>
+                        <b-td>{{ booking.end | formatDateTimeString }}</b-td>
                         <b-td>
                             <b-link>
                                 <a class="cursor-pointer" @click="sendBookingConfirmation(booking.id)">{{ $t('app.bookings.action.resend') }}</a>
@@ -56,6 +63,9 @@
             }
         },
         methods: {
+            persistLocation: function (location) {
+                store.dispatch('SAVE_LOCATION', {location: location});
+            },
             async getUserBookings() {
                 store.dispatch('FETCH_USER_BOOKINGS').then(() => {
                     this.user_bookings = store.state.BOOKINGS;

@@ -68,7 +68,7 @@ class User extends Authenticatable implements JWTSubject
     public function getBookings()
     {
         $bookings = $this->bookings()
-            ->with('resource', 'time_slot')
+            ->with('resource', 'time_slot', 'resource.location')
             ->where('end', '>=', Carbon::now())
             ->orderBy('date')
             ->get();
@@ -78,9 +78,14 @@ class User extends Authenticatable implements JWTSubject
         return $bookings;
     }
 
-    public function getBookingCount()
+    public function getBookingCount(Location $location)
     {
-        return $this->bookings()->whereDate('date', '>=', Carbon::now())->count();
+        $bookings = $this->bookings()->whereDate('date', '>=', Carbon::now());
+        $bookings = $bookings->get()->filter(function($booking) use ($location) {
+            return $booking->resource->location->id === $location->id;
+        });
+
+        return $bookings->count();
     }
 
     public function hasAlreadyBookingInTimeSlot(Carbon $booking_start, Carbon $booking_end)
@@ -93,8 +98,8 @@ class User extends Authenticatable implements JWTSubject
         return $existing_time_slot_booking_count > 0;
     }
 
-    public function sendBookingConfirmation($booking) {
-        return Mail::to($this->email)->send(new BookingConfirmation($booking));
+    public function sendBookingConfirmation($location, $booking) {
+        return Mail::to($this->email)->send(new BookingConfirmation($location, $booking));
     }
 
     public function hasTimeSlotBooked($date, $resource_id, $time_slot_id)

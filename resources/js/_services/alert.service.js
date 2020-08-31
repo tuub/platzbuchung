@@ -7,7 +7,6 @@ export const alertService = {
 const app = new Vue();
 
 function alertPhone(current_phone = '') {
-    console.log(app.$root);
     return app.$swal({
         icon: 'info',
         title: app.$i18n.t('app.phone.form.create.title'),

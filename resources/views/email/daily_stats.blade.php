@@ -1,4 +1,6 @@
 @component('mail::message')
+# {{ $location->name }}
+
 # {{ $date->getTranslatedDayName() }}, {{ $date->format('d.m.Y') }}
 
 **Buchungen:** {{ $bookings }}

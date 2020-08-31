@@ -7,7 +7,7 @@ It supports:
 - different resources, e.g. locations, floors, each with their own possible capacity numbers
 - different time slots per resource
 - display of a configurable date range
-- a rolling opening for new bookings (which is the current date + DISPLAY_DAYS_IN_ADVANCE value from configuration)
+- a rolling opening for new bookings (which is the current date + a configurable value from configuration)
 
 ## DISCLAIMER
 **This tool might not work for you out-of-the-box!** 
@@ -27,6 +27,14 @@ Also, some things in the JavaScript part are a bit cumbersome and there should b
 
 ## Webserver
 Entry point for the application is `public/index.php`. Your webserver config should point to this location.
+
+## Migration from 1.0 to 1.1
+In order to use the introduced locations in version 1.1, you have to add your
+* locations
+* resources
+* time slots
+
+via administration and then run `php artisan platzbuchung:upgrade` from the application root path.
 
 ## Installation
 First you install the application by running: `composer install`.
@@ -48,8 +56,8 @@ You will then need to add an `.env` file with your configuration. A boilerplate 
 | TELESCOPE_ENABLED | Whether the debug tool Telescope" should be available under &lt;APP_URL&gt;/telescope | false
 | AUTH_ENDPOINT | Our external authentication server | "https://external.auth.webservice"
 | AUTH_METHOD | Authentication type | possible: "alma", "paia" (GBV), "eloquent" (laravel built-in authentication system)
-| USER_BOOKING_QUOTA | How many bookings are allowed within the displayed date range, starting today | 5 |
-| DISPLAY_DAYS_IN_ADVANCE | How many opening days should be displayed to the user for booking (weekends are currently excluded) | 10 |
+| ~~USER_BOOKING_QUOTA~~ |  ~~How many bookings are allowed within the displayed date range, starting today~~<br>See administration. |  ~~5~~ |
+| ~~DISPLAY_DAYS_IN_ADVANCE~~ | ~~How many opening days should be displayed to the user for booking (weekends are currently excluded)~~<br>See administration. | ~~10~~ |
 | REPORT_PROCESS_SERVER_HOST | Remote processing server host without protocol, for SCPing the user report (see below) | "remote.process.server" |
 | REPORT_PROCESS_SERVER_USER | Remote processing server SSH user, for SCPing the user report (see below) | "remote.process.server.ssh.user" |
 | REPORT_PROCESS_SERVER_FILE_PATH | Remote processing server file path, for SCPing the user report (see below) | "/filepath/at/remote/process/server.txt" |
@@ -167,60 +175,48 @@ npm run prod
 ## Checkin / Checkout
 There are 2 screens prepared for usage on dedicated screens:
 
-- <YOUR_APPLICATION_URL>/checkin
-- <YOUR_APPLICATION_URL>/checkout
+- <YOUR_APPLICATION_URL>/checkin/<LOCATION_UID>
+- <YOUR_APPLICATION_URL>/checkout/<LOCATION_UID>
 
 In our institution they run in 2 workstations with kiosk browser installed and a hand scanner attached
-which scans the barcode of the library card. Of course, The screens can also be used on a normal infodesk 
+which scans the barcode of the library card. Of course, The screens can also be used on a regular helpdesk 
 computer in a browser, operated by a staff member.
 
 The check-in validates if there is a currently valid booking present. The check-out validates if 
 there was an check-in before.
 
+## Administration
+There is an administration panel available for configured users. For now, you have to alter the
+database user record and set the `is_admin` column value to `true`. The admin area is then available via `<APP_DOMAIN>/#/admin/locations`. 
+
+In a future release, it will be included in the navigation for configured users.
+
+The booking system relies on 
+1. Location(s)
+2. Resources within each location
+3. Time slots within each resource for each day
+
+This allows for granular access control. You start with the locations and then progress to resources and time slots.
+You can also specify closings.
+
 ## Maintenance Commands
-There is no administration panel (yet). Some stuff can be done on CLI level on the application server.
 
 ### User report
 In case of a COVID-19 infected client or a zombie apocalypse, this is the command to run:
 ````
-php artisan axxess:user-report <DATE>
+php artisan platzbuchung:user-report <LOCATION_UID> <DATE>
 ````
-In our case, it assembles a separated list of checked-in users for a given date 
+In our case, it assembles a separated list of checked-in users for a given location UID (e.g. 'zb', see administration) and a given date 
 from the application database which is then sent to another server for enrichment with
 other personal data (which we don't store due to privacy reasons). Check out 
 [app/Console/Commands/GenerateUserReport.php](app/Console/Commands/GenerateUserReport.php) 
 for adjustments.
 
-### Add resource
-If you want to add a new resource, just do this:
-````
-php artisan axxess:add-resource
-````
-Have the following data ready: Regular name, short name, capacity number, address, background color & text color (optional, for visual guidance only).
-
-ATTENTION: No update or delete function yet.
-
-### Add Time slot
-If you want to add a new time slot to a resource (multiple timeslots per resource per day are possible), just do this:
-````
-php artisan axxess:add-timeslot
-````
-It presents you a table with your resources for reference. Have the following data ready: Start time, end time.
-
-ATTENTION: No update or delete function yet.
-
-### Change resource capacity
-Not enough time slots? Just do this:
-````
-php artisan axxess:change-capacity
-````
-It presents you a table with your resources for reference. Have the following data ready: The new capacity number.
-
 ### Daily stats
 ````
-php artisan axxess:daily-stats
+php artisan platzbuchung:daily-stats <LOCATION_UID>
 ````
-Uses the internal scheduler. Always uses the current date. Sends a mail to the configured recipient(s), see above. Best used with a cron job like this:
+Uses the internal scheduler. Always uses the current date and a given location UID (e.g. 'zb', see administration). Sends a mail to the configured recipient(s), see above. Best used with a cron job like this:
 ````
 * * * * * cd /your/application/directory && php artisan schedule:run >> /dev/null 2>&1
 ````

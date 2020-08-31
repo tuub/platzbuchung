@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Booking;
 use App\Library\DateHelper;
+use App\Resource;
 use App\TimeSlot;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -36,6 +37,7 @@ class BookingController extends Controller
             return response('Unauthenticated', 401);
         }
 
+        $location = Resource::find($request->resource)->location()->first();
         $time_slot = TimeSlot::find($request->time_slot);
 
         $booking_start = DateHelper::generateDateTimeFromStrings($request->date, $time_slot->start);
@@ -60,7 +62,9 @@ class BookingController extends Controller
 
             if (auth()->check()) {
 
-                if (auth()->user()->getBookingCount() < env('USER_BOOKING_QUOTA')) {
+
+
+                if (auth()->user()->getBookingCount($location) < $location->user_booking_quota) {
 
                     $booking = Booking::create([
                         'resource_id' => $request->resource,
@@ -73,7 +77,7 @@ class BookingController extends Controller
 
                     Log::channel('booking')->info('ADD: ', $booking->toArray());
 
-                    auth()->user()->sendBookingConfirmation($booking);
+                    auth()->user()->sendBookingConfirmation($location, $booking);
 
                     $type = 'success';
                     $message = __('app.time_grid.status.create_success.text', [
@@ -84,7 +88,7 @@ class BookingController extends Controller
 
                     $type = 'error';
                     $message = __('app.time_grid.status.create_failure.text_quota_exhausted', [
-                        'user_booking_quota' => env('USER_BOOKING_QUOTA')
+                        'user_booking_quota' => $location->user_booking_quota,
                     ]);
                 }
             }
