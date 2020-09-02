@@ -98,7 +98,7 @@ class User extends Authenticatable implements JWTSubject
         return $existing_time_slot_booking_count > 0;
     }
 
-    public function sendBookingConfirmation($location, $booking) {
+    public function sendBookingConfirmation(Location $location, Booking $booking) {
         return Mail::to($this->email)->send(new BookingConfirmation($location, $booking));
     }
 

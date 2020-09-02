@@ -58,8 +58,9 @@ class UserController extends Controller
     {
         if (auth()->user()) {
             $booking = auth()->user()->bookings()->where('id', $request->id)->first();
+            $location = $booking->resource->location;
 
-            return auth()->user()->sendBookingConfirmation($booking);
+            return auth()->user()->sendBookingConfirmation($location, $booking);
         }
 
         return response('Not authenticated!', 401);
