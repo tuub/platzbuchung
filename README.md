@@ -1,12 +1,15 @@
 # UB Arbeitsplatzbuchung
 
-This tool was written in June 2020 for handling restricted access during the COVID-19 pandemic and to support 
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/tuub/platzbuchung/graphs/commit-activity)
+
+This tool was written for handling restricted access during the COVID-19 pandemic and to support 
 the booking of working spaces per location for clients.
 
 It supports:
 - different resources, e.g. locations, floors, each with their own possible capacity numbers
 - different time slots per resource
 - display of a configurable date range
+- booking limits per user
 - a rolling opening for new bookings (which is the current date + a configurable value from configuration)
 
 ## DISCLAIMER
@@ -51,13 +54,11 @@ You will then need to add an `.env` file with your configuration. A boilerplate 
 | APP_KEY | Leave empty. Set by the application in the next installation step | Hash value |
 | APP_DEBUG | Whether the app shows detailed errors or not | false |
 | APP_URL | The base URL of the application | https://example.org/platzbuchung |
-| APP_VERSION | The current version of the app  | 1.0 |
+| APP_VERSION | The current version of the app  | 1.1 |
 | APP_LOGO | The path to the logo file | images/logo.svg (points to public/images directory) |
 | TELESCOPE_ENABLED | Whether the debug tool Telescope" should be available under &lt;APP_URL&gt;/telescope | false
 | AUTH_ENDPOINT | Our external authentication server | "https://external.auth.webservice"
 | AUTH_METHOD | Authentication type | possible: "alma", "paia" (GBV), "eloquent" (laravel built-in authentication system)
-| ~~USER_BOOKING_QUOTA~~ |  ~~How many bookings are allowed within the displayed date range, starting today~~<br>See administration. |  ~~5~~ |
-| ~~DISPLAY_DAYS_IN_ADVANCE~~ | ~~How many opening days should be displayed to the user for booking (weekends are currently excluded)~~<br>See administration. | ~~10~~ |
 | REPORT_PROCESS_SERVER_HOST | Remote processing server host without protocol, for SCPing the user report (see below) | "remote.process.server" |
 | REPORT_PROCESS_SERVER_USER | Remote processing server SSH user, for SCPing the user report (see below) | "remote.process.server.ssh.user" |
 | REPORT_PROCESS_SERVER_FILE_PATH | Remote processing server file path, for SCPing the user report (see below) | "/filepath/at/remote/process/server.txt" |
@@ -94,7 +95,7 @@ We query an external webservice for authentication via TLS-secured CURL. Due to 
 we only save the user data that is absolutely needed for running the application in the 
 application database. Custom authentication drivers are 
 * [app/Auth/AlmaUserProvider.php](app/Auth/AlmaUserProvider.php)
-* [app/Auth/PaiaUserProvider.php](app/Auth/PaiaUserProvider.php).
+* [app/Auth/PaiaUserProvider.php](app/Auth/PaiaUserProvider.php) (contributed by [Tobias Zeumer](https://github.com/tzeumer))
 
 Chances are big that you'll use another road here. Laravel framework 
 provides a convenient way for adding custom-tailored authentication 
@@ -197,7 +198,10 @@ The booking system relies on
 3. Time slots within each resource for each day
 
 This allows for granular access control. You start with the locations and then progress to resources and time slots.
-You can also specify closings.
+
+You can date-constraint time slots to support successive extension of opening times.
+
+You can also specify closings: Single dates or date ranges are possible.
 
 ## Maintenance Commands
 
@@ -225,3 +229,6 @@ Uses the internal scheduler. Always uses the current date and a given location U
 - Auto delete of checkins an booking data after x weeks
 - Webpack optimizations for smaller frontend asset files
 - Docker version
+
+## Shout outs
+- [Tobias Zeumer](https://github.com/tzeumer) for providing the PAIA authentication
