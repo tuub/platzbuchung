@@ -77,7 +77,7 @@ class AdminController extends Controller
 
     public static function getTimeSlots(Request $request)
     {
-        return Resource::with('time_slots')->find($request->resource_id);
+        return TimeSlot::where('resource_id', $request->resource_id)->orderBy('week_day')->get();
     }
 
     public static function getTimeSlot($id)

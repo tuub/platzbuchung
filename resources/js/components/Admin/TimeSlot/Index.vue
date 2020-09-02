@@ -5,7 +5,6 @@
         <b-table-simple class="w-75 mx-auto" hover caption-top responsive>
             <b-thead head-variant="dark">
                 <b-tr>
-                    <b-th class="text-center">ID</b-th>
                     <b-th>Week Day</b-th>
                     <b-th>Start</b-th>
                     <b-th>End</b-th>
@@ -16,7 +15,6 @@
             </b-thead>
             <b-tbody>
                 <b-tr v-for="timeSlot in timeSlots" :key="timeSlot.id">
-                    <b-td class="text-center">{{ timeSlot.id }}</b-td>
                     <b-td>{{ timeSlot.week_day | formatWeekDay }}</b-td>
                     <b-td>{{ timeSlot.start | formatTimeString }}</b-td>
                     <b-td>{{ timeSlot.end | formatTimeString }}</b-td>
@@ -50,7 +48,7 @@
                     resource_id: this.resourceId
                 };
                 axios.get('api/admin/time_slots?resource_id=' + this.resourceId).then((response) => {
-                    this.timeSlots = response.data.time_slots;
+                    this.timeSlots = response.data;
                 }).catch(error => {
                     console.log(error);
                 });
