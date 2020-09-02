@@ -30,7 +30,11 @@ class DailyStats extends Mailable
      */
     public function build()
     {
-        $subject = env('STATS_REPORT_SUBJECT') . ' ' . $this->data['date']->format('d.m.Y');
-        return $this->subject($subject)->markdown('email.daily_stats')->with($this->data);
+        $subject = [
+            env('STATS_REPORT_SUBJECT'),
+            strtoupper($this->data['location']->uid),
+            $this->data['date']->format('d.m.Y')
+        ];
+        return $this->subject(implode(' ', $subject))->markdown('email.daily_stats')->with($this->data);
     }
 }
