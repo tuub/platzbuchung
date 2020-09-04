@@ -22,6 +22,9 @@ with the built-in solution. See "Authentication" for details.
 
 Also, some things in the JavaScript part are a bit cumbersome and there should be some more cleanup in files and code structure.
 
+## See it in action
+https://services.ub.tu-berlin.de/platzbuchung/
+
 ## Requirements
 - PHP 7.2
 - Database
