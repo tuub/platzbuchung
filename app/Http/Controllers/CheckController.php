@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Booking;
 use App\CheckIn;
+use App\Library\Utility;
 use App\Location;
 use App\Library\DateHelper;
 use App\User;
@@ -61,6 +62,7 @@ class CheckController extends Controller
      */
     public function postCheckin(Request $request)
     {
+        $log = [];
         $check_in = false;
         $booking = null;
 
@@ -68,17 +70,10 @@ class CheckController extends Controller
         $location = Location::find($request->location);
         $user = User::where('barcode', $barcode)->first();
 
-        Log::channel('checkin')->info('*** CHECK IN ***');
-        Log::channel('checkin')->info('Location:', [
-            'LOCATION' => $location->name,
-        ]);
+        $log['Location'] = strtoupper($location->uid);
+        $log['User'] = $user ? $user->barcode : null;
 
         if ($user) {
-
-            Log::channel('checkin')->info('Found user: ', [
-                'ID' => $user->id,
-                'BARCODE' => $user->barcode,
-            ]);
 
             $now = Carbon::now();
 
@@ -93,13 +88,9 @@ class CheckController extends Controller
                 return $now->isBetween($booking_start, $booking_end);
             })->first();
 
-            if ($valid_booking) {
+            $log['Booking'] = $valid_booking ? $valid_booking->id : 'Booking not found';
 
-                Log::channel('checkin')->info('Booking:', [
-                    'ID' => $valid_booking->id,
-                    'START' => $valid_booking->start,
-                    'END' => $valid_booking->end,
-                ]);
+            if ($valid_booking) {
 
                 $existing_check_in = CheckIn::where([
                     'booking_id' => $valid_booking->id,
@@ -107,10 +98,6 @@ class CheckController extends Controller
                 ])->first();
 
                 if ($existing_check_in) {
-                    Log::channel('checkin')->info('CheckIn already exists:', [
-                        'ID' => $existing_check_in->id,
-                        'TIME' => $existing_check_in->check_in,
-                    ]);
                     $check_in = false;
                     $title = __('app.checkin.status.checkin_failure.title');
                     $text = __('app.checkin.status.checkin_failure.text_active_checkin_present');
@@ -121,10 +108,7 @@ class CheckController extends Controller
                         'check_in' => Carbon::now()
                     ]);
 
-                    Log::channel('checkin')->info('CheckIn:', [
-                        'ID' => $checkin->id,
-                        'TIME' => $checkin->check_in,
-                    ]);
+                    $log['Checkin'] = $checkin->id;
 
                     $check_in = true;
                     $title = __('app.checkin.status.checkin_success.title');
@@ -135,19 +119,17 @@ class CheckController extends Controller
                     $booking = $valid_booking;
                 }
             } else {
-                Log::channel('checkin')->info('Booking not found.');
                 $check_in = false;
                 $title = __('app.checkin.status.checkin_failure.title');
                 $text = __('app.checkin.status.checkin_failure.text_no_booking_present');
             }
         } else {
-            Log::channel('checkin')->info('User not found:', [
-                'BARCODE' => $barcode
-            ]);
             $check_in = false;
             $title = __('app.checkin.status.checkin_failure.title');
             $text = __('app.checkin.status.checkin_failure.text_no_booking_present');
         }
+
+        Log::channel('checkin')->info('IN : ' . Utility::implodeWithKeys(', ', $log, ' = '));
 
         return view('screen.checkin_status', compact('check_in', 'title', 'text', 'booking', 'location'));
     }
@@ -171,37 +153,26 @@ class CheckController extends Controller
      */
     public function postCheckout(Request $request)
     {
+        $log = [];
         $check_out = false;
 
         $barcode = $request->barcode;
         $location = Location::find($request->location);
         $user = User::where('barcode', $barcode)->first();
 
-        Log::channel('checkin')->info('*** CHECK OUT ***');
-        Log::channel('checkin')->info('Location:', [
-            'LOCATION' => $location->name,
-        ]);
+        $log['Location'] = strtoupper($location->uid);
+        $log['User'] = $user ? $user->barcode : null;
 
         if ($user) {
-
-            Log::channel('checkin')->info('Found user: ', [
-                'ID' => $user->id,
-                'BARCODE' => $user->barcode,
-            ]);
-
             $latest_check_in = $user->checkins()
                 ->where('check_in', '!=', null)
                 ->where('check_out', '=', null)
                 ->latest()
                 ->first();
 
+            $log['Checkin'] = $latest_check_in ? $latest_check_in->id : 'Checkin not found';
+
             if ($latest_check_in) {
-
-                Log::channel('checkin')->info('CheckIn:', [
-                    'ID' => $latest_check_in->id,
-                    'CHECK_IN' => $latest_check_in->check_in,
-                ]);
-
                 $latest_check_in->update([
                     'check_out' => Carbon::now()
                 ]);
@@ -213,11 +184,12 @@ class CheckController extends Controller
                 $text = __('app.checkout.status.checkout_success.text');
             }
         } else {
-            Log::channel('checkin')->info('CheckIn not found.');
             $check_out = false;
             $title = __('app.checkout.status.checkout_failure.title');
             $text = __('app.checkout.status.checkout_failure.text');
         }
+
+        Log::channel('checkin')->info('OUT: ' . Utility::implodeWithKeys(', ', $log, ' = '));
 
         return view('screen.checkout_status', compact('check_out', 'title', 'text', 'location'));
     }
