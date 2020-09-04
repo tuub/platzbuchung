@@ -62,6 +62,13 @@ return [
             'level' => 'debug',
         ],
 
+        // Added by us
+        'checkin' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/checkin.log'),
+            'level' => 'debug',
+        ],
+
         'daily' => [
             'driver' => 'daily',
             'path' => storage_path('logs/laravel.log'),
