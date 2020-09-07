@@ -206,6 +206,13 @@ You can date-constraint time slots to support successive extension of opening ti
 
 You can also specify closings: Single dates or date ranges are possible.
 
+## Logs
+There are several logs to consult:
+* Application log: storage/logs/laravel.log
+* Authentication log: storage/logs/auth.log
+* Booking log: storage/logs/booking.log
+* Checkin/Checkout log: storage/log/checkin.log
+
 ## Maintenance Commands
 
 ### User report

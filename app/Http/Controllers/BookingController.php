@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Booking;
 use App\Library\DateHelper;
+use App\Library\Utility;
 use App\Resource;
 use App\TimeSlot;
 use Illuminate\Http\Request;
@@ -37,6 +38,7 @@ class BookingController extends Controller
             return response('Unauthenticated', 401);
         }
 
+        $log = [];
         $location = Resource::find($request->resource)->location()->first();
         $time_slot = TimeSlot::find($request->time_slot);
 
@@ -62,8 +64,6 @@ class BookingController extends Controller
 
             if (auth()->check()) {
 
-
-
                 if (auth()->user()->getBookingCount($location) < $location->user_booking_quota) {
 
                     $booking = Booking::create([
@@ -75,7 +75,7 @@ class BookingController extends Controller
                         'user_id' => auth()->user()->id
                     ]);
 
-                    Log::channel('booking')->info('ADD: ', $booking->toArray());
+                    $log['Booking'] = $booking->toArray();
 
                     auth()->user()->sendBookingConfirmation($location, $booking);
 
@@ -91,6 +91,8 @@ class BookingController extends Controller
                         'user_booking_quota' => $location->user_booking_quota,
                     ]);
                 }
+
+                Log::channel('booking')->info('[+]: ' . Utility::implodeWithKeys(', ', $log, ' = '));
             }
         }
 
@@ -124,6 +126,7 @@ class BookingController extends Controller
             return response('Unauthenticated', 401);
         }
 
+        $log = [];
         $booking = auth()->user()->bookings()->where('id', $request->id)->first();
 
         if ($booking) {
@@ -134,7 +137,9 @@ class BookingController extends Controller
             );
 
             $op = $booking->delete();
-            Log::channel('booking')->info('DELETE: ', $booking->toArray());
+            $log['Booking'] = $booking->toArray();
+
+            Log::channel('booking')->info('[-]: ' . Utility::implodeWithKeys(', ', $log, ' = '));
 
             return $op;
         }

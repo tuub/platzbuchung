@@ -1,6 +1,7 @@
 <?php
 namespace App\Auth;
 
+use App\Library\Utility;
 use App\User;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\UserProvider;
@@ -52,6 +53,7 @@ class AlmaUserProvider implements UserProvider
             return null;
         }
 
+        $log = [];
         $user = null;
 
         $ws_credentials = [
@@ -71,9 +73,8 @@ class AlmaUserProvider implements UserProvider
         $response = preg_replace('/[\n\r]|\s{2,}/', '', $response);
         $response = XmlToArray::convert($response);
 
-        Log::channel('auth')->info('*** ALMA WEBSERVICE AUTH ***');
-        Log::channel('auth')->info($ws_credentials['uid']);
-        Log::channel('auth')->info($response['result']);
+        $log['Credentials'] = $ws_credentials['uid'];
+        $log['Response'] = $response['result'];
 
         $session_data = [
             'auth_message' => $response['result']['messg'],
@@ -103,7 +104,6 @@ class AlmaUserProvider implements UserProvider
                     'email' => $userData['email'],
                     'is_healthy' => $userData['is_healthy']
                 ]);
-                Log::channel('auth')->info('Updated user.');
             } else {
                 $user = User::create([
                     'username' => $userData['username'],
@@ -111,11 +111,11 @@ class AlmaUserProvider implements UserProvider
                     'email' => $userData['email'],
                     'is_healthy' => $userData['is_healthy']
                 ]);
-                Log::channel('auth')->info('Created user.');
             }
+            $log['User'] = $user;
         }
 
-        Log::channel('auth')->info($user);
+        Log::channel('auth')->info(Utility::implodeWithKeys(', ', $log, ' = '));
 
         return $user;
     }
