@@ -8,7 +8,7 @@ class Utility
         return implode($glue,
             array_map(
                 function($k, $v) use($symbol) {
-                    return $k . $symbol . is_array($v) ? json_encode($v) : $v;
+                    return $k . $symbol . json_encode($v); // is_array($v) ? json_encode($v) : $v
                 },
                 array_keys($array),
                 array_values($array)
