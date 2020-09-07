@@ -71,7 +71,7 @@ class CheckController extends Controller
         $user = User::where('barcode', $barcode)->first();
 
         $log['Location'] = strtoupper($location->uid);
-        $log['User'] = $user ? $user->barcode : null;
+        $log['User'] = $user ? $user->barcode : 'Invalid value: ' . $barcode;
 
         if ($user) {
 
@@ -161,7 +161,7 @@ class CheckController extends Controller
         $user = User::where('barcode', $barcode)->first();
 
         $log['Location'] = strtoupper($location->uid);
-        $log['User'] = $user ? $user->barcode : null;
+        $log['User'] = $user ? $user->barcode : 'Invalid value: ' . $barcode;
 
         if ($user) {
             $latest_check_in = $user->checkins()
