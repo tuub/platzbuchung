@@ -86,6 +86,8 @@ class BookingController extends Controller
 
                 } else {
 
+                    $log['Booking'] = 'User quota limit exhausted';
+
                     $type = 'error';
                     $message = __('app.time_grid.status.create_failure.text_quota_exhausted', [
                         'user_booking_quota' => $location->user_booking_quota,
