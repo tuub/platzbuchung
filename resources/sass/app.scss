@@ -41,6 +41,10 @@
     transform: translateX(-30%);
 }
 
+#legend {
+    font-size: 0.8rem;
+}
+
 button.time-slot {
     border: 0;
     font-size: 0.8rem;
@@ -54,7 +58,7 @@ button.time-slot {
     color: #000;
 }
 
-.time-slot-status-available:hover {
+button.time-slot-status-available:hover {
     background-color: darkgreen;
     color: #fff;
 }

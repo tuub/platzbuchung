@@ -20,7 +20,13 @@ return [
     ],
     'time_grid' => [
         'intro' => 'Sie können bis zu :user_booking_quota Termine innerhalb der folgenden :display_days_in_advance Öffnungstage reservieren. Es wird die Anzahl der noch verfügbaren Plätze angezeigt. Die Buchung und Nutzung von Arbeitsplätzen ist im Moment nur für TU- und UdK-Angehörige möglich.',
-        'legend' => 'Legende',
+        'legend' => [
+            'title' => 'Legende',
+            'available' => 'Verfügbar',
+            'user-booked' => 'Von Ihnen gebucht',
+            'full' => 'Voll ausgebucht',
+            'unavailable' => 'Nicht verfügbar',
+        ],
         'pagination' => [
             'previous' => 'Früher',
             'now' => 'Jetzt',

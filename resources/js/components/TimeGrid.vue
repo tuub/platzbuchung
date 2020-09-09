@@ -2,8 +2,8 @@
     <div>
         <h2 class="text-center" v-if="location">{{ location.name }}</h2>
         <p class="block mt-3 mb-3">{{ $t('app.home.intro') }}</p>
-        <b-row class="text-center" align-v="center">
-            <b-col>
+        <b-row class="text-center justify-content-md-center">
+            <b-col col lg="6" >
                 <p class="lead">{{ introText }}</p>
             </b-col>
         </b-row>
@@ -18,6 +18,7 @@
             </b-row>
         </template>
         <template v-else>
+            <Legend></Legend>
             <b-row class="text-center" align-v="center">
                 <b-col>
                     <div class="mt-3 mb-3">
@@ -65,6 +66,7 @@
 
 <script>
     import Spinner from "./Spinner";
+    import Legend from "./Legend";
     import TimeSlot from "./TimeSlot";
     import {store} from "../_store";
 
@@ -72,6 +74,7 @@
         name: "TimeGrid",
         components: {
             Spinner,
+            Legend,
             TimeSlot
         },
         props: {
