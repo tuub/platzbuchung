@@ -86,6 +86,11 @@ class BookingController extends Controller
 
                 } else {
 
+                    $log['Error'] = 'Booking Limit: '
+                        . auth()->user()->barcode . ' has ' . auth()->user()->getBookingCount($location)
+                        . ' == '
+                        . strtoupper($location->uid) . ' allows ' . $location->user_booking_quota;
+
                     $type = 'error';
                     $message = __('app.time_grid.status.create_failure.text_quota_exhausted', [
                         'user_booking_quota' => $location->user_booking_quota,
