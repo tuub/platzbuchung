@@ -75,6 +75,7 @@ class BookingController extends Controller
                         'user_id' => auth()->user()->id
                     ]);
 
+                    $log['User'] = auth()->user()->barcode;
                     $log['Booking'] = $booking->toArray();
 
                     auth()->user()->sendBookingConfirmation($location, $booking);
@@ -88,7 +89,7 @@ class BookingController extends Controller
 
                     $log['Error'] = 'Booking Limit: '
                         . auth()->user()->barcode . ' has ' . auth()->user()->getBookingCount($location)
-                        . ' == '
+                        . ', '
                         . strtoupper($location->uid) . ' allows ' . $location->user_booking_quota;
 
                     $type = 'error';
