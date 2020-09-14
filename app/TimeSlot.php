@@ -12,6 +12,7 @@ class TimeSlot extends Model
     protected $table            = 'time_slots';
     public $timestamps          = true;
     protected $fillable         = array('resource_id', 'start', 'end', 'name', 'week_day', 'date_from', 'date_to');
+    protected $dates            = array('date_from', 'date_to');
 
     public function resource()
     {
