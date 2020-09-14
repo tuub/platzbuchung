@@ -27,7 +27,7 @@ class Kernel extends ConsoleKernel
     {
         $locations = Location::get();
         foreach ($locations as $location) {
-            $schedule->command('platzbuchung:daily-stats ' . $location->uid)->dailyAt('22:00')->weekdays();;
+            $schedule->command('platzbuchung:daily-stats ' . $location->uid)->dailyAt('22:00');
         }
     }
 

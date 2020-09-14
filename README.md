@@ -228,9 +228,9 @@ for adjustments.
 
 ### Daily stats
 ````
-php artisan platzbuchung:daily-stats <LOCATION_UID>
+php artisan platzbuchung:daily-stats <LOCATION_UID> <DATE>
 ````
-Uses the internal scheduler. Always uses the current date and a given location UID (e.g. 'zb', see administration). Sends a mail to the configured recipient(s), see above. Best used with a cron job like this:
+Uses the internal scheduler. Uses the given location UID (e.g. 'zb', see administration) and the given date or, if omitted, the current date. Sends a mail to the configured recipient(s), see above. Best used with a cron job like this:
 ````
 * * * * * cd /your/application/directory && php artisan schedule:run >> /dev/null 2>&1
 ````
