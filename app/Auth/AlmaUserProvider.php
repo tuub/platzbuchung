@@ -3,6 +3,7 @@ namespace App\Auth;
 
 use App\Library\Utility;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Support\Facades\Log;
@@ -102,14 +103,16 @@ class AlmaUserProvider implements UserProvider
                 $user->update([
                     'barcode' => $userData['barcode'],
                     'email' => $userData['email'],
-                    'is_healthy' => $userData['is_healthy']
+                    'is_healthy' => $userData['is_healthy'],
+                    'last_login' => Carbon::now(),
                 ]);
             } else {
                 $user = User::create([
                     'username' => $userData['username'],
                     'barcode' => $userData['barcode'],
                     'email' => $userData['email'],
-                    'is_healthy' => $userData['is_healthy']
+                    'is_healthy' => $userData['is_healthy'],
+                    'last_login' => Carbon::now(),
                 ]);
             }
             $log['User'] = $user;

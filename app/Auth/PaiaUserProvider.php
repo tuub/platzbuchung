@@ -2,6 +2,7 @@
 namespace App\Auth;
 
 use App\User;
+use Carbon\Carbon;
 use DateTime;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\UserProvider;
@@ -13,20 +14,20 @@ use Vyuldashev\XmlToArray\XmlToArray;
 /**
  * Authenticate against PAIA
  *
- * This class should work with any implementation of PAIA. It is verified to 
- * work with library systems hosted by the GBV (https://www.gbv.de) with the 
- * endpoint being https://paia.gbv.de/ followed by the library id 
- * (e.g. https://paia.gbv.de/DE-830/). 
+ * This class should work with any implementation of PAIA. It is verified to
+ * work with library systems hosted by the GBV (https://www.gbv.de) with the
+ * endpoint being https://paia.gbv.de/ followed by the library id
+ * (e.g. https://paia.gbv.de/DE-830/).
  *
  * @see: https://gbv.github.io/paia/   Patron Account Information API
  *
  * @author  Tobias Zeumer <tobias.zeumer@tuhh.de>
- * @license https://opensource.org/licenses/MIT MIT License 
+ * @license https://opensource.org/licenses/MIT MIT License
  * @link    https://github.com/tubhh/platzbuchung
  *
  * @since   2020-07-25 Initial version (copy of AlmaUserProvider.php)
  *
- * @todo    Maybe use session data to indicate that an email is set for the 
+ * @todo    Maybe use session data to indicate that an email is set for the
  *          account and thus not requiring a phone number upon first login.
  */
 class PaiaUserProvider implements UserProvider
@@ -86,16 +87,16 @@ class PaiaUserProvider implements UserProvider
         // Get user data
         $patron_data_json = file_get_contents(env('AUTH_ENDPOINT').'/core/'.$credentials['username'].'?access_token='.$access_token);
         $patron_data      = json_decode($patron_data_json, true);
-        
+
         /* No session data needed yet...
-            // Maybe use session data later to check if a email is set. And if so don't ask for phone number 
+            // Maybe use session data later to check if a email is set. And if so don't ask for phone number
             // Maybe use for user type (different reservation conditions for students and external patrons)
         $session_data = [
             'auth_message' => $response['result']['messg'],
         ];
         session()->put($session_data);
         */
-        
+
         if ($access_token) {
             // Usertype (might be useful to restrict access by patron status)
             $user_type = explode(':', $patron_data['type'][0])[2];
@@ -123,7 +124,8 @@ class PaiaUserProvider implements UserProvider
                 $user->update([
                     'barcode' => $userData['barcode'],
                     'email' => $userData['email'],
-                    'is_healthy' => $userData['is_healthy']
+                    'is_healthy' => $userData['is_healthy'],
+                    'last_login' => Carbon::now(),
                 ]);
                 Log::channel('auth')->info('Updated user.');
             } else {
@@ -131,11 +133,12 @@ class PaiaUserProvider implements UserProvider
                     'username' => $userData['username'],
                     'barcode' => $userData['barcode'],
                     'email' => $userData['email'],
-                    'is_healthy' => $userData['is_healthy']
+                    'is_healthy' => $userData['is_healthy'],
+                    'last_login' => Carbon::now(),
                 ]);
                 Log::channel('auth')->info('Created user.');
             }
-        }        
+        }
 
         return $user;
     }
