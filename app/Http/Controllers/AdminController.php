@@ -6,6 +6,7 @@ use App\Closing;
 use App\Location;
 use App\Resource;
 use App\TimeSlot;
+use App\User;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -140,6 +141,15 @@ class AdminController extends Controller
         $id = $request->id;
         $op = Closing::find($id)->delete();
         return $op;
+    }
+
+    public function getUserBookings(Request $request)
+    {
+        $user = User::where('barcode', $request->barcode)->first();
+        $bookings = $user->bookings()->withTrashed()->with('resource', 'resource.location')->orderBy('date', 'asc')
+        ->get();
+
+        return $bookings;
     }
 
 }

@@ -247,6 +247,32 @@ export default {
                         "text": "Bitte sprechen Sie das UB-Personal an."
                     }
                 }
+            },
+            "admin": {
+                "title": "Administration Buchungssystem für Arbeitsplätze",
+                "bookings": {
+                    "title": "Buchungen prüfen",
+                    "form": {
+                        "index": {
+                            "barcode": "Barcode",
+                            "submit_value": "Buchungen suchen",
+                            "submit_progress_value": "Suche Buchungen ..."
+                        }
+                    },
+                    "label": {
+                        "date": "Datum",
+                        "location": "Standort",
+                        "resource": "Ort",
+                        "start": "Beginn",
+                        "end": "Ende",
+                        "status": "Status"
+                    },
+                    "status": {
+                        "active": "Aktiv",
+                        "expired": "Abgelaufen",
+                        "deleted_by_user": "Manuelle Löschung am {date} um {time} Uhr"
+                    }
+                }
             }
         }
     },
