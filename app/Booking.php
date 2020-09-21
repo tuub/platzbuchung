@@ -16,7 +16,7 @@ class Booking extends Model
     protected $uuidFieldName    = 'id';
     public $incrementing        = false;
     protected $fillable         = array('user_id', 'date', 'start', 'end', 'resource_id', 'time_slot_id', 'deleted_by_user');
-    protected $dates            = ['date', 'start', 'end'];
+    protected $dates            = ['date', 'start', 'end', 'deleted_at'];
 
     public function resource()
     {
@@ -35,7 +35,7 @@ class Booking extends Model
 
     public function check_in()
     {
-        return $this->belongsTo('App\Booking');
+        return $this->hasOne('App\CheckIn');
     }
 
     public function setDateAttribute($value)

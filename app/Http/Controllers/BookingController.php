@@ -119,8 +119,6 @@ class BookingController extends Controller
      *
      * The booking with the given ID is deleted and a boolean value is returned.
      *
-     * FIXME: It should at least check the ownership of the booking ;)
-     *
      * @param Request $request
      *
      * @return mixed

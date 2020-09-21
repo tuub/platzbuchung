@@ -67,7 +67,7 @@ return [
     |
     */
 
-    'timezone' => 'Europe/Berlin',
+    'timezone' => date_default_timezone_get(),
 
     /*
     |--------------------------------------------------------------------------

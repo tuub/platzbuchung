@@ -16,7 +16,7 @@ class DailyStats extends Mailable
     /**
      * Create a new message instance.
      *
-     * @return void
+     * @param $data
      */
     public function __construct($data)
     {
@@ -30,11 +30,10 @@ class DailyStats extends Mailable
      */
     public function build()
     {
-        $subject = [
-            env('STATS_REPORT_SUBJECT'),
-            strtoupper($this->data['location']->uid),
-            $this->data['date']->format('d.m.Y')
-        ];
-        return $this->subject(implode(' ', $subject))->markdown('email.daily_stats')->with($this->data);
+        $subject = __('app.mail.daily_stats.subject', [
+            'location' => strtoupper($this->data['location']->uid),
+            'date' => $this->data['date']->format('d.m.Y')
+        ]);
+        return $this->subject($subject)->markdown('email.daily_stats')->with($this->data);
     }
 }

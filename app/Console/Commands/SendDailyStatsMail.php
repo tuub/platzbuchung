@@ -53,6 +53,7 @@ class SendDailyStatsMail extends Command
                         'date' => $date,
                         'location' => $location,
                         'users' => Statistics::getUserCount(),
+                        'logins' => Statistics::getLoginCount($date),
                         'bookings' => Statistics::getBookingCount($location, $date),
                         'check_ins' => Statistics::getCheckInCount($location, $date),
                         'check_outs' => Statistics::getCheckOutCount($location, $date),

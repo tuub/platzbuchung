@@ -146,7 +146,8 @@ class AdminController extends Controller
     public function getUserBookings(Request $request)
     {
         $user = User::where('barcode', $request->barcode)->first();
-        $bookings = $user->bookings()->withTrashed()->with('resource', 'resource.location')->orderBy('date', 'asc')
+        $bookings = $user->bookings()->with('check_in', 'resource', 'resource.location')->withTrashed()->orderBy('date',
+            'asc')
         ->get();
 
         return $bookings;

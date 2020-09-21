@@ -7,6 +7,7 @@ import LoginForm from "./../components/LoginForm";
 import Bookings from "./../components/Bookings";
 import Profile from "./../components/Profile";
 
+import AdminIndex from './../components/Admin/Index';
 import AdminLocationIndex from './../components/Admin/Location/Index';
 import AdminLocationForm from './../components/Admin/Location/Form';
 import AdminClosingIndex from './../components/Admin/Closing/Index';
@@ -60,6 +61,16 @@ const routes = [
         component: Profile,
         meta: {
             requiresAuth: true,
+        }
+    },
+
+    {
+        path: '/admin/index',
+        name: 'admin_index',
+        component: AdminIndex,
+        meta: {
+            requiresAuth: true,
+            requiresAdmin: true,
         }
     },
     {
@@ -151,24 +162,6 @@ const router = new VueRouter({
     routes,
 });
 
-function checkAdminRights() {
-    axios.get('api/user/permissions', { username: store.getters.user.username }).then((response) => {
-        console.log(response.data);
-        next();
-    }).catch(error => {
-        //commit('fetchUserBookingsFailure', error);
-        //dispatch('TOAST_FAILURE', error);
-        //reject(error);
-    });
-    /*
-    store.dispatch('CHECK_USER_STATUS', store.getters.user.username).then((response) => {
-        console.log('Admin?');
-        console.log(response);
-        return response;
-    });
-     */
-}
-
 router.beforeEach((to, from, next) => {
     if(to.matched.some(record => record.meta.requiresAuth)) {
         if (Vue.prototype.$auth.check()) {
@@ -187,9 +180,13 @@ router.beforeEach((to, from, next) => {
                 next();
             }
         } else {
-            store.dispatch('LOGOUT_ACTION');
-            next({name: 'login', query: {redirect: to.fullPath}});
-            return;
+            if (store.getters.isLoggedIn === true) {
+                next();
+            } else {
+                store.dispatch('LOGOUT_ACTION');
+                next({name: 'login', query: {redirect: to.fullPath}});
+                return;
+            }
         }
     }
     next();

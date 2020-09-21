@@ -45,8 +45,6 @@ const i18n = new VueInternationalization({
     messages: Locale
 });
 
-
-
 Vue.use(VueAuth, {
     auth: authDriver,
     http: httpDriver,
@@ -70,7 +68,7 @@ Vue.use(VueAuth, {
     refreshData: {
         url: 'api/auth/refresh',
         method: 'POST',
-        enabled: true,
+        enabled: false,
         interval: 30
     }
 });
@@ -118,7 +116,7 @@ Vue.axios.interceptors.response.use(function (response) {
     //console.log(response);
     return response;
 }, function (error) {
-    //console.log('*** RESPONSE ERROR ***');
+    console.log('*** RESPONSE ERROR ***');
 
     // Authentication error
     if (401 === error.response.status) {

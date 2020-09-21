@@ -29,8 +29,8 @@
 }
 
 .nav-link:hover {
-    background-color: #c40d1e;
-    color: #fff !important;
+    background-color: var(--primary) !important;
+    color: var(--white) !important;
 }
 
 .page-enter-active, .page-leave-active {
@@ -81,4 +81,8 @@ button.time-slot-status-available:hover {
 .time-slot-count {
     font-size: 1.5rem;
     font-weight:bold;
+}
+
+.icon {
+    font-size: 1.5rem;
 }

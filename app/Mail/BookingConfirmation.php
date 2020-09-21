@@ -13,12 +13,14 @@ class BookingConfirmation extends Mailable
 {
     use Queueable, SerializesModels;
 
+    protected $location;
     protected $booking;
 
     /**
      * Create a new message instance.
      *
-     * @return void
+     * @param Location $location
+     * @param Booking  $booking
      */
     public function __construct(Location $location, Booking $booking)
     {
@@ -33,10 +35,11 @@ class BookingConfirmation extends Mailable
      */
     public function build()
     {
-        $usage_notes_general = Lang::get('app.mail.usage_notes_general');
-        $usage_notes_in_practice = Lang::get('app.mail.usage_notes_in_practice.' . $this->location->uid);
+        $usage_notes_general = Lang::get('app.mail.booking_confirmation.usage_notes_general');
+        $usage_notes_in_practice = Lang::get('app.mail.booking_confirmation.usage_notes_in_practice.' .
+            $this->location->uid);
 
-        return $this->subject(__('app.mail.subject'))
+        return $this->subject(__('app.mail.booking_confirmation.subject'))
             ->markdown('email.booking_confirmation')->with([
                 'user_barcode' => auth()->user()->barcode,
                 'location' => $this->location,

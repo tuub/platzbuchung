@@ -1,19 +1,24 @@
 <template>
     <div>
-        <b-button :to="{ name: 'admin_location_form' }">New Location</b-button>
-        <b-table-simple class="w-100 mx-auto" hover caption-top responsive>
+        <div class="text-center w-25 mx-auto mb-2">
+            <h1 class="text-center">{{ $t('app.admin.locations.title') }}</h1>
+            <p class="block mt-3 mb-3">{{ $t('app.admin.locations.description') }}</p>
+            <b-button :to="{ name: 'admin_index' }">{{ $t('app.admin.locations.action.admin_index') }}</b-button>
+            <b-button :to="{ name: 'admin_location_form' }">{{ $t('app.admin.locations.action.new') }}</b-button>
+        </div>
+        <b-table-simple class="w-75 mx-auto" hover caption-top responsive>
             <b-thead head-variant="dark">
                 <b-tr>
-                    <b-th>UID</b-th>
-                    <b-th>Name</b-th>
-                    <b-th>Address</b-th>
-                    <b-th>Email</b-th>
-                    <b-th>Logo</b-th>
-                    <b-th>Image</b-th>
-                    <b-th>Coordinates</b-th>
-                    <b-th>Days in advance</b-th>
-                    <b-th>User booking quota</b-th>
-                    <b-th>Actions</b-th>
+                    <b-th>{{ $t('app.admin.locations.label.uid') }}</b-th>
+                    <b-th>{{ $t('app.admin.locations.label.name') }}</b-th>
+                    <b-th>{{ $t('app.admin.locations.label.address') }}</b-th>
+                    <b-th>{{ $t('app.admin.locations.label.email') }}</b-th>
+                    <b-th>{{ $t('app.admin.locations.label.logo') }}</b-th>
+                    <b-th>{{ $t('app.admin.locations.label.image') }}</b-th>
+                    <b-th>{{ $t('app.admin.locations.label.coordinates') }}</b-th>
+                    <b-th>{{ $t('app.admin.locations.label.days_in_advance') }}</b-th>
+                    <b-th>{{ $t('app.admin.locations.label.user_booking_quota') }}</b-th>
+                    <b-th>{{ $t('app.admin.locations.label.actions') }}</b-th>
                 </b-tr>
             </b-thead>
             <b-tbody>
@@ -28,10 +33,18 @@
                     <b-td>{{ location.display_days_in_advance }}</b-td>
                     <b-td>{{ location.user_booking_quota }}</b-td>
                     <b-td>
-                        <b-button class="btn-block d-block" size="sm" :to="{ name: 'admin_location_form', query: { location_id: location.id } }">Edit</b-button>
-                        <b-button class="btn-block d-block" size="sm" @click="deleteLocation(location.id)">Delete</b-button>
-                        <b-button class="btn-block d-block" size="sm" :to="{ name: 'admin_resource_index', query: { location_id: location.id } }">Resources</b-button>
-                        <b-button class="btn-block d-block" size="sm" :to="{ name: 'admin_closing_index', query: { location_id: location.id } }">Closings</b-button>
+                        <b-button class="btn-block d-block" size="sm" :to="{ name: 'admin_location_form', query: { location_id: location.id } }">
+                            {{ $t('app.admin.locations.action.edit') }}
+                        </b-button>
+                        <b-button class="btn-block d-block" size="sm" @click="deleteLocation(location.id)">
+                            {{ $t('app.admin.locations.action.delete') }}
+                        </b-button>
+                        <b-button class="btn-block d-block" size="sm" :to="{ name: 'admin_resource_index', query: { location_id: location.id } }">
+                            {{ $t('app.admin.locations.action.resources') }}
+                        </b-button>
+                        <b-button class="btn-block d-block" size="sm" :to="{ name: 'admin_closing_index', query: { location_id: location.id } }">
+                            {{ $t('app.admin.locations.action.closings') }}
+                        </b-button>
                     </b-td>
                 </b-tr>
             </b-tbody>
@@ -58,21 +71,14 @@
                 });
             },
             deleteLocation: function(locationId) {
-                const deleteAlert = this.$swal({
-                    icon: 'warning',
-                    title: this.$i18n.t('app.admin.location.form.delete.title'),
-                    html: this.$i18n.t('app.admin.location.form.delete.text'),
-                    showCancelButton: true,
-                    confirmButtonText: this.$i18n.t('app.admin.location.form.delete.submit_value'),
-                    cancelButtonText: this.$i18n.t('app.admin.location.form.delete.cancel_value')
-                });
-                deleteAlert.then((response) => {
+                let dialog = this.$i18n.t('app.admin.locations.form.delete.message');
+                if (confirm(dialog)) {
                     axios.post('api/admin/location/' + locationId + 'delete').then((response) => {
                         this.getLocations();
                     }).catch(error => {
                         console.log(error);
                     });
-                });
+                };
             }
         },
         mounted() {

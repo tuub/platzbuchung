@@ -3,18 +3,20 @@
 
 # {{ $date->getTranslatedDayName() }}, {{ $date->format('d.m.Y') }}
 
-**Buchungen:** {{ $bookings }}
+**@lang('app.mail.daily_stats.bookings'):** {{ $bookings }}
 
-**Check-Ins:** {{ $check_ins }}
+**@lang('app.mail.daily_stats.check_ins'):** {{ $check_ins }}
 
-**Check-Outs:** {{ $check_outs }}
+**@lang('app.mail.daily_stats.check_outs'):** {{ $check_outs }}
 
-**Buchungen mit Check-In:** {{ $booking_checkin_ratio }} %
+**@lang('app.mail.daily_stats.bookings_with_check_in'):** {{ $booking_checkin_ratio }} %
 
-**Check-Ins mit Check-Out:** {{ $checkin_checkout_ratio }} %
+**@lang('app.mail.daily_stats.check_ins_with_check_out'):** {{ $checkin_checkout_ratio }} %
 
-**Gesamtkunden:** {{ $users }}
+**@lang('app.mail.daily_stats.total_users'):** {{ $users }}
 
-Viele Grüße,<br>
+**@lang('app.mail.daily_stats.total_logins'):** {{ $logins }}
+
+@lang('app.mail.daily_stats.goodbye'),<br>
 {{ config('app.name') }}
 @endcomponent

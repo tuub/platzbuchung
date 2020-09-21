@@ -125,7 +125,7 @@ const actions = {
         }).catch(error => {
             commit('fetchUserBookingsFailure', error);
             dispatch('TOAST_FAILURE', error);
-            reject(error);
+            // reject(error);
         });
     },
     /*
@@ -138,7 +138,7 @@ const actions = {
             commit('saveLocation', response.data);
         }).catch(error => {
             console.log(error);
-            reject(error);
+            // reject(error);
         });
     }
 };

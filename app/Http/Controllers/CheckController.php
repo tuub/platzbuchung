@@ -167,6 +167,7 @@ class CheckController extends Controller
             $latest_check_in = $user->checkins()
                 ->where('check_in', '!=', null)
                 ->where('check_out', '=', null)
+                ->whereDate('check_in', '=', Carbon::today())
                 ->latest()
                 ->first();
 
@@ -177,7 +178,7 @@ class CheckController extends Controller
                     'check_out' => Carbon::now()
                 ]);
 
-                Booking::findByUuid($latest_check_in->booking_id)->delete();
+                Booking::where('id', $latest_check_in->booking_id)->first()->delete();
 
                 $check_out = true;
                 $title = __('app.checkout.status.checkout_success.title');

@@ -1,29 +1,33 @@
 <template>
-    <div>
-        <h1>Resource Form</h1>
+    <div class="w-25 mx-auto">
+        <h1>{{ $t('app.admin.resources.form.edit.title') }}</h1>
         <b-form>
-            <b-form-group id="name-field" label="Name" label-for="name" class="font-weight-bold text-uppercase">
-                <b-form-input id="name" v-model="resource.name" type="text" autofocus required placeholder=""></b-form-input>
+            <b-form-group id="name-field" :label="$t('app.admin.resources.form.fields.name.label')" label-for="name" class="font-weight-bold text-uppercase">
+                <b-form-input id="name" v-model="resource.name" type="text" required placeholder=""></b-form-input>
             </b-form-group>
-            <b-form-group id="short_name-field" label="short_name" label-for="short_name" class="font-weight-bold text-uppercase">
-                <b-form-input id="short_name" v-model="resource.short_name" type="text" autofocus required placeholder=""></b-form-input>
+            <b-form-group id="short_name-field" :label="$t('app.admin.resources.form.fields.short_name.label')" label-for="short_name" class="font-weight-bold text-uppercase">
+                <b-form-input id="short_name" v-model="resource.short_name" type="text" required placeholder=""></b-form-input>
             </b-form-group>
-            <b-form-group id="location_id-field" label="location_id" label-for="location_id" class="font-weight-bold text-uppercase">
+            <b-form-group id="location_id-field" :label="$t('app.admin.resources.form.fields.location.label')" label-for="location_id" class="font-weight-bold text-uppercase">
                 <b-form-select id="location_id" v-model="resource.location_id" :options="locationSelect"></b-form-select>
             </b-form-group>
-            <b-form-group id="capacity-field" label="capacity" label-for="capacity" class="font-weight-bold text-uppercase">
-                <b-form-input id="capacity" v-model="resource.capacity" type="text" autofocus required placeholder=""></b-form-input>
+            <b-form-group id="capacity-field" :label="$t('app.admin.resources.form.fields.capacity.label')" label-for="capacity" class="font-weight-bold text-uppercase">
+                <b-form-input id="capacity" v-model="resource.capacity" type="text" required placeholder=""></b-form-input>
             </b-form-group>
-            <b-form-group id="color-field" label="color" label-for="color" class="font-weight-bold text-uppercase">
-                <b-form-input id="color" v-model="resource.color" type="text" autofocus required placeholder=""></b-form-input>
+            <b-form-group id="color-field" :label="$t('app.admin.resources.form.fields.color.label')" label-for="color" class="font-weight-bold text-uppercase">
+                <b-form-input id="color" v-model="resource.color" type="text" required placeholder=""></b-form-input>
                 <!--<colour-picker v-model="resource.color" :value="resource.color" picker="chrome" />-->
             </b-form-group>
-            <b-form-group id="text_color-field" label="text_color" label-for="text_color" class="font-weight-bold text-uppercase">
-                <b-form-input id="text_color" v-model="resource.text_color" type="text" autofocus required placeholder=""></b-form-input>
+            <b-form-group id="text_color-field" :label="$t('app.admin.resources.form.fields.text_color.label')" label-for="text_color" class="font-weight-bold text-uppercase">
+                <b-form-input id="text_color" v-model="resource.text_color" type="text" required placeholder=""></b-form-input>
                 <!--<colour-picker v-model="resource.text_color" :value="resource.text_color" picker="chrome" />-->
             </b-form-group>
 
-            <b-button type="button" @click="storeResource" class="text-uppercase" variant="success" :disabled="submitted" v-text="submitted ? 'Saving' : 'Save'"></b-button>
+            <b-button type="button" @click="storeResource" class="text-uppercase" variant="success" :disabled="submitted" v-text="submitted ?
+                $t('app.admin.resources.form.submit_progress') :
+                $t('app.admin.resources.form.submit_value')">
+            </b-button>
+            <b-button type="button" @click="closeForm" class="text-uppercase" variant="danger" :disabled="submitted" v-text="$t('app.admin.resources.form.cancel_value')"></b-button>
         </b-form>
     </div>
 </template>
@@ -81,6 +85,12 @@
                     console.log(error);
                 });
             },
+            closeForm: function () {
+                let dialog = this.$i18n.t('app.admin.resources.form.cancel_message');
+                if (confirm(dialog)) {
+                    this.$router.push({'name': 'admin_resource_index', query: { location_id: this.locationId }});
+                };
+            }
         },
         mounted() {
             this.fetchLocations();

@@ -65,4 +65,9 @@ class Statistics
     {
         return User::count();
     }
+
+    public static function getLoginCount(Carbon $date)
+    {
+        return User::whereDate('last_login', $date)->count();
+    }
 }

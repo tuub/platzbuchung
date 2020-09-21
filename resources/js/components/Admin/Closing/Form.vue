@@ -1,24 +1,26 @@
 <template>
-    <div>
-        <h1>Closing Form</h1>
+    <div class="w-25 mx-auto">
+        <h1>{{ $t('app.admin.closings.form.edit.title') }}</h1>
         <b-form>
-            <b-form-group id="date_start-field" label="Date Start" label-for="date_start" class="font-weight-bold text-uppercase">
+            <b-form-group id="date_start-field" :label="$t('app.admin.closings.form.fields.date_start.label')" label-for="date_start" class="font-weight-bold text-uppercase">
                 <b-form-datepicker id="date_start" name="date_start" v-model="closing.date_start" close-button reset-button></b-form-datepicker>
             </b-form-group>
-            <b-form-group id="date_end-field" label="Date End (optional)" label-for="date_end" class="font-weight-bold text-uppercase">
+            <b-form-group id="date_end-field" :label="$t('app.admin.closings.form.fields.date_end.label')" label-for="date_end" class="font-weight-bold text-uppercase">
                 <b-form-datepicker id="date_end" name="date_end" v-model="closing.date_end" close-button reset-button></b-form-datepicker>
             </b-form-group>
-            <b-form-group id="description-field" label="Description" label-for="description" class="font-weight-bold text-uppercase">
+            <b-form-group id="description-field" :label="$t('app.admin.closings.form.fields.description.label')" label-for="description" class="font-weight-bold text-uppercase">
                 <b-form-input id="description" v-model="closing.description" type="text" autofocus required placeholder=""></b-form-input>
             </b-form-group>
 
-            <b-button type="button" @click="storeClosing" class="text-uppercase" variant="success" :disabled="submitted" v-text="submitted ? 'Saving' : 'Save'"></b-button>
+            <b-button type="button" @click="storeClosing" class="text-uppercase" variant="success" :disabled="submitted" v-text="submitted ? $t('app.admin.closings.form.submit_progress') : $t('app.admin.closings.form.submit_value')"></b-button>
+            <b-button type="button" @click="closeForm" class="text-uppercase" variant="danger" :disabled="submitted" v-text="$t('app.admin.closings.form.cancel_value')"></b-button>
         </b-form>
     </div>
 </template>
 
 <script>
     import axios from "axios";
+    import router from "../../../_router";
 
     export default {
         name: 'AdminLocationForm',
@@ -54,6 +56,12 @@
                     console.log(error);
                 });
             },
+            closeForm: function () {
+                let dialog = this.$i18n.t('app.admin.closings.form.cancel_message');
+                if (confirm(dialog)) {
+                    this.$router.push({'name': 'admin_closing_index', query: { location_id: this.locationId }});
+                };
+            }
         },
         mounted() {
             if (this.closingId > 0) {
