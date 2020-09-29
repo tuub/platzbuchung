@@ -206,7 +206,7 @@ return [
                 'bbphysik' => [
                     'usage_notes_in_practice_1' => 'Betreten Sie das Gebäude durch den Haupteingang und zeigen Sie an der Pförtnerloge dieses Bestätigungsschreiben (digital oder ausgedruckt) und Ihren Bibliotheksausweis (für TU-Studierende gilt der Studierendenausweis als Bibliotheksausweis) vor, damit Sie Einlass erhalten.',
                     'usage_notes_in_practice_2' => '<a href="https://www.ub.tu-berlin.de/bibliothek-benutzen/standorte-und-oeffnungszeiten/wegbeschreibung-zur-bb-physik/">So kommen Sie am besten zur Bereichsbibliothek</a>',
-                    'usage_notes_in_practice_3' => 'In der Bibliothek nehmen Sie sich bitte einen Korb, reinigen ihn mit den bereitgestellten Reinigungsmaterialien.',
+                    'usage_notes_in_practice_3' => 'In der Bibliothek nehmen Sie sich bitte einen Korb und reinigen ihn mit den bereitgestellten Reinigungsmaterialien.',
                     'usage_notes_in_practice_4' => 'Kommen Sie mit Ihrem Bibliotheksausweis zur Ausleihtheke und lassen Sie sich einchecken.',
                     'usage_notes_in_practice_5' => 'Sie haben freie Platzwahl.',
                     'usage_notes_in_practice_6' => 'Ihren Arbeitsplatz reinigen Sie vor und nach der Benutzung mit den bereitgestellten Reinigungsmaterialien.',
