@@ -23,11 +23,28 @@
                 <input type="hidden" name="location" id="location" value="{{ $location->id }}">
                 <input class="border border-dark rounded w-full py-2 px-3  text-black" type="text" name="barcode" id="barcode" autofocus required>
             </form>
+            <div id="clock" class="small"></div>
         </div>
     </div>
 </div>
 </body>
 <script>
     document.getElementById('barcode').focus();
+
+    let render = function (template, node) {
+        if (!node) return;
+        node.innerHTML = (typeof template === 'function' ? template() : template);
+        var event = new CustomEvent('elementRenders', {
+            bubbles: true
+        });
+        node.dispatchEvent(event);
+        return node;
+    };
+
+    render(new Date().toLocaleTimeString(), document.querySelector('#clock'));
+
+    window.setInterval(function () {
+        render(new Date().toLocaleTimeString(), document.querySelector('#clock'));
+    }, 1000);
 </script>
 </html>
