@@ -52,7 +52,7 @@
                     { value: 4, text: 'THURSDAY' },
                     { value: 5, text: 'FRIDAY' },
                     { value: 6, text: 'SATURDAY' },
-                    { value: 7, text: 'SUNDAY' },
+                    { value: 0, text: 'SUNDAY' },
                 ]
             }
         },
