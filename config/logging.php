@@ -43,28 +43,28 @@ return [
         ],
 
         'single' => [
-            'driver' => 'single',
+            'driver' => 'daily',
             'path' => storage_path('logs/laravel.log'),
             'level' => 'debug',
         ],
 
         // Added by us
         'auth' => [
-            'driver' => 'single',
+            'driver' => 'daily',
             'path' => storage_path('logs/auth.log'),
             'level' => 'debug',
         ],
 
         // Added by us
         'booking' => [
-            'driver' => 'single',
+            'driver' => 'daily',
             'path' => storage_path('logs/booking.log'),
             'level' => 'debug',
         ],
 
         // Added by us
         'checkin' => [
-            'driver' => 'single',
+            'driver' => 'daily',
             'path' => storage_path('logs/checkin.log'),
             'level' => 'debug',
         ],
