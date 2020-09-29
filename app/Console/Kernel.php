@@ -25,10 +25,14 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        // Send out daily stats email
         $locations = Location::get();
         foreach ($locations as $location) {
             $schedule->command('platzbuchung:daily-stats ' . $location->uid)->dailyAt('22:00');
         }
+
+        // Delete old entries
+        $schedule->command('platzbuchung:cleanup-userdata')->dailyAt('00:00');
     }
 
     /**

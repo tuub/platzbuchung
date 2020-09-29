@@ -9,6 +9,7 @@ use App\Location;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 
 class HomeController extends Controller
@@ -27,20 +28,22 @@ class HomeController extends Controller
 
             // Calculate displayed dates
             $offset = (int)$request->offset;
-            $days_in_advance = (int)$location->display_days_in_advance;
-
             $today = Carbon::today();
-            $max_date_bookable = $today->clone()->addDays($days_in_advance);
+            $current_week = $today->clone()->addWeeks($offset);
 
-            $start = $today->addWeeks($offset)->startOfWeek();
+            $start = $current_week->startOfWeek();
             $end = $start->clone()->endOfWeek();
             $dates = CarbonPeriod::create($start, $end);
 
-            // Calculate pagination
-            $has_next = $offset * 7 < $days_in_advance;
-            $has_previous = $offset > 0;
+            $booking_config = $location->getBookableDates($offset);
 
-            // Grid data, here we go
+            $max_date_bookable = $booking_config['max_bookable_date'];
+
+
+            $has_next = $booking_config['has_next'];
+            $has_previous = $booking_config['has_previous'];
+
+            // Grid data, here we o
             $grid_data = [];
             foreach ($dates as $date) {
                 foreach ($resources as $resource) {

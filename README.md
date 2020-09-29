@@ -234,6 +234,22 @@ Uses the internal scheduler. Uses the given location UID (e.g. 'zb', see adminis
 ````
 * * * * * cd /your/application/directory && php artisan schedule:run >> /dev/null 2>&1
 ````
+The command frequency can be configured here: [app/Console/Kernel.php](app/Console/Kernel.php).
+
+### GDPR deletion
+````
+php artisan platzbuchung:cleanup-userdata
+````
+Uses the internal scheduler. Vacuums the database and deletes
+
+* bookings with deletion date older than 30 days
+* users with last login older than 30 days
+
+Best used with a cron job like this:
+````
+* * * * * cd /your/application/directory && php artisan schedule:run >> /dev/null 2>&1
+````
+The command frequency can be configured here: [app/Console/Kernel.php](app/Console/Kernel.php).
 
 ## To Do
 - Auto delete of checkins an booking data after x weeks
