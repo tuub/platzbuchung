@@ -4,14 +4,13 @@
         <p class="block mt-3 mb-3">{{ $t('app.locations.intro') }}</p>
         <b-container>
         <b-row>
-            <b-col v-for="location in locations" :key="location.id">
+            <b-col class="col-md-4" v-for="location in locations" :key="location.id">
                 <b-card
                     :title=location.name
                     :img-src=location.image_uri
                     :img-alt=location.name
                     img-top
                     tag="article"
-                    style="max-width: 20rem;"
                     class="mb-2"
                 >
                     <b-card-text>
