@@ -19,7 +19,7 @@ export default {
                 "intro": "Bitte wählen Sie einen Standort aus."
             },
             "time_grid": {
-                "intro": "Sie können bis zu {user_booking_quota} Termine innerhalb der folgenden {display_days_in_advance} Öffnungstage reservieren. Es wird die Anzahl der noch verfügbaren Plätze angezeigt. Die Buchung und Nutzung von Arbeitsplätzen ist im Moment nur für TU- und UdK-Angehörige möglich.",
+                "intro": "Sie können bis zu {user_booking_quota} Termine reservieren. Es wird die Anzahl der noch verfügbaren Plätze angezeigt. Die Buchung und Nutzung von Arbeitsplätzen ist im Moment nur für TU- und UdK-Angehörige möglich.",
                 "legend": {
                     "title": "Legende",
                     "available": "Verfügbar",
