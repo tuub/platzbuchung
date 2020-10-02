@@ -216,6 +216,18 @@ return [
                     'usage_notes_in_practice_10' => 'Führen Sie Ihren Korb stets mit sich, auch wenn Sie eine Pause machen und die Bibliothek verlassen.',
                     'usage_notes_in_practice_11' => 'Beim endgültigen Verlassen der Bibliothek kommen Sie bitte an die Ausleihtheke mit ihrem Bibliotheksausweis zum Check-out und stellen Sie Ihren Korb zurück.',
                 ],
+                'bbarch' => [
+                    'usage_notes_in_practice_1' => 'Betreten Sie das Gebäude durch den Haupteingang (Gebäude A, Hochhaus) und zeigen Sie an der Pförtnerloge dieses Bestätigungsschreiben (digital oder ausgedruckt) und Ihren Bibliotheksausweis (für TU-Studierende gilt der Studierendenausweis als Bibliotheksausweis) vor, damit Sie Einlass erhalten.',
+                    'usage_notes_in_practice_2' => 'In der Bibliothek nehmen Sie sich bitte einen Korb und reinigen ihn mit den bereitgestellten Reinigungsmaterialien.',
+                    'usage_notes_in_practice_3' => 'Kommen Sie mit Ihrem Bibliotheksausweis zur Ausleihtheke und lassen Sie sich einchecken.',
+                    'usage_notes_in_practice_4' => 'Sie haben freie Platzwahl.',
+                    'usage_notes_in_practice_5' => 'Ihren Arbeitsplatz reinigen Sie vor und nach der Benutzung mit den bereitgestellten Reinigungsmaterialien.',
+                    'usage_notes_in_practice_6' => 'Bitte achten Sie darauf, ausreichend Sicherheitsabstand zu anderen Personen zu halten.',
+                    'usage_notes_in_practice_7' => 'Sanitäranlagen stehen auf der Etage außerhalb der Bibliothek zur Verfügung.',
+                    'usage_notes_in_practice_8' => 'Desinfektionsmittel werden bereitgestellt.',
+                    'usage_notes_in_practice_9' => 'Führen Sie Ihren Korb stets mit sich, auch wenn Sie eine Pause machen und die Bibliothek verlassen.',
+                    'usage_notes_in_practice_10' => 'Beim endgültigen Verlassen der Bibliothek kommen Sie bitte an die Ausleihtheke mit ihrem Bibliotheksausweis zum Check-out und stellen Sie Ihren Korb zurück.',
+                ],
             ],
         ],
         'daily_stats' => [
