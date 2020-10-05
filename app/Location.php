@@ -14,8 +14,6 @@ class Location extends Model
     protected $fillable         = array('uid', 'name', 'address', 'email', 'logo_uri', 'image_uri', 'latitude',
 'longitude', 'display_days_in_advance', 'user_booking_quota');
 
-    private $config;
-
     public function resources()
     {
         return $this->hasMany(Resource::class, 'location_id', 'id');
@@ -73,22 +71,34 @@ class Location extends Model
     public function getBookableDates(int $offset = 0) {
         $today = Carbon::today();
         $opening_days = $this->getOpeningDays();
+        $closings = $this->getClosings();
         $dates_to_display = $this->display_days_in_advance;
-        $displayed_dates = ($offset == 0 ? $offset+1 : $offset) * count($opening_days);
+        $rest_days = $dates_to_display;
 
-        $rest_dates = $dates_to_display - $displayed_dates;
-        $max_bookable_date = $today;
+        $max_bookable_date = $today->clone();
+        $date_start = $today->clone()->startOfWeek();
+        $date_end = $today->clone()->addWeeks($offset)->endOfWeek();
+        $dates = CarbonPeriod::create($date_start, $date_end);
 
-        if ($offset == 0) {
-            $max_bookable_date->addDays(count($opening_days));
-        } else {
-            $max_bookable_date->addWeek($offset)->startOfWeek()->addDays($rest_dates);
-            $rest_dates = $rest_dates - count($opening_days);
+        foreach ($dates as $date) {
+            if (in_array($date->dayOfWeek, $opening_days)) {
+                if ($date->gte($today)) {
+                    if ($rest_days > 0) {
+                        if (in_array($date->dayOfWeek, $opening_days)) {
+                            if (!in_array($date, $closings)) {
+                                $rest_days--;
+                                $max_bookable_date = $date;
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         return [
+            'today' => $today,
             'has_previous' => $offset > 0,
-            'has_next' => $rest_dates >= 0 && $rest_dates <= $dates_to_display,
+            'has_next' => $rest_days > 0,
             'max_bookable_date' => $max_bookable_date,
         ];
     }

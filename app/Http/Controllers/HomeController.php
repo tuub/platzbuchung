@@ -3,14 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Booking;
-use App\Library\DateHelper;
 use App\Resource;
 use App\Location;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Log;
 
 class HomeController extends Controller
 {
@@ -26,24 +23,21 @@ class HomeController extends Controller
             $resources = Resource::where('location_id', $location->id)->get();
             $closings = $location->getClosings();
 
-            // Calculate displayed dates
             $offset = (int)$request->offset;
-            $today = Carbon::today();
-            $current_week = $today->clone()->addWeeks($offset);
+            $booking_config = $location->getBookableDates($offset);
 
+            $today = $booking_config['today'];
+            $max_date_bookable = $booking_config['max_bookable_date'];
+            $has_next = $booking_config['has_next'];
+            $has_previous = $booking_config['has_previous'];
+
+            // We could really move some of the following stuff to model methods ...
+            $current_week = $today->clone()->addWeeks($offset);
             $start = $current_week->startOfWeek();
             $end = $start->clone()->endOfWeek();
             $dates = CarbonPeriod::create($start, $end);
 
-            $booking_config = $location->getBookableDates($offset);
-
-            $max_date_bookable = $booking_config['max_bookable_date'];
-
-
-            $has_next = $booking_config['has_next'];
-            $has_previous = $booking_config['has_previous'];
-
-            // Grid data, here we o
+            // Grid data, here we go
             $grid_data = [];
             foreach ($dates as $date) {
                 foreach ($resources as $resource) {
@@ -78,13 +72,12 @@ class HomeController extends Controller
                         if (in_array($date, $closings)) {
                             $is_unavailable = true;
                         } elseif ($time_slot->isOver($date)) {
-                            //$count = 0;
                             $is_unavailable = true;
                         } elseif ($time_slot->isFull($resource->id, $date)) {
-                            //$count = 0;
                             $is_full = true;
                         } elseif ($date->gt($max_date_bookable)) {
-                            //$count = 0;
+                            $is_unavailable = true;
+                        } elseif ($date->lt($today)) {
                             $is_unavailable = true;
                         } else {
                             $count = Booking::getCount($date, $resource->id, $time_slot->id);
