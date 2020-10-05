@@ -1,5 +1,5 @@
 <template>
-    <div class="text-center">
+    <div class="text-center mx-auto col-12 col-md-4">
         <h1>{{ $t('app.bookings.title') }}</h1>
         <p class="lead">{{ $t('app.bookings.intro') }}</p>
         <template v-if="bookings.length > 0">

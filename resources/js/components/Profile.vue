@@ -1,5 +1,5 @@
 <template>
-    <div class="text-center w-25 mx-auto">
+    <div class="text-center mx-auto col-12 col-md-4">
         <h1>{{ $t('app.profile.title') }}</h1>
         <p class="lead">{{ $t('app.profile.intro') }}</p>
         <b-form>
