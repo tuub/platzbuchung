@@ -4,7 +4,7 @@
         <p class="block mt-3 mb-3">{{ $t('app.locations.intro') }}</p>
         <b-container>
         <b-row>
-            <b-col class="col-md-4" v-for="location in locations" :key="location.id">
+            <b-col class="col-12 col-md-4" v-for="location in locations" :key="location.id">
                 <b-card
                     :title=location.name
                     :img-src=location.image_uri
