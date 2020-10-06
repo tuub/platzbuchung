@@ -1,9 +1,9 @@
 <template>
-    <div class="text-center mx-auto col-12 col-md-4">
+    <div class="text-center mx-auto col-12">
         <h1>{{ $t('app.bookings.title') }}</h1>
         <p class="lead">{{ $t('app.bookings.intro') }}</p>
         <template v-if="bookings.length > 0">
-            <b-table-simple class="w-50 mx-auto" hover small caption-top responsive v-if="bookings.length > 0">
+            <b-table-simple class="mx-auto" hover small caption-top responsive v-if="bookings.length > 0">
                 <b-thead head-variant="dark">
                     <b-tr>
                         <b-th>{{ $t('app.bookings.label.date') }}</b-th>
