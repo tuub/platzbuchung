@@ -17,6 +17,7 @@ import AdminResourceForm from './../components/Admin/Resource/Form';
 import AdminTimeSlotIndex from './../components/Admin/TimeSlot/Index';
 import AdminTimeSlotForm from './../components/Admin/TimeSlot/Form';
 import AdminBookingIndex from './../components/Admin/Booking/Index';
+import AdminStatisticIndex from './../components/Admin/Statistic/Index';
 import {store} from "../_store";
 import axios from "axios";
 
@@ -154,6 +155,15 @@ const routes = [
             requiresAdmin: true,
         }
     },
+    {
+        path: '/admin/statistics',
+        name: 'admin_statistic_index',
+        component: AdminStatisticIndex,
+        meta: {
+            requiresAuth: true,
+            requiresAdmin: true,
+        }
+    },
 ];
 
 const router = new VueRouter({
@@ -164,6 +174,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
     if(to.matched.some(record => record.meta.requiresAuth)) {
+        console.log('Auth: ' + Vue.prototype.$auth.check());
         if (Vue.prototype.$auth.check()) {
             if(to.matched.some(record => record.meta.requiresAdmin)) {
                 let username = store.getters.user.username;

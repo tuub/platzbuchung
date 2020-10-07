@@ -539,6 +539,20 @@ export default {
                         "location_index": "Standortübersicht"
                     },
                     "status": []
+                },
+                "statistics": {
+                    "title": "Statistiken",
+                    "description": "Hier können Sie verschiedene Statistiken einsehen.",
+                    "occupancies": {
+                        "title": "Auslastung",
+                        "description": "Hier können Sie die Auslastung für die verschiedenen Standorte abrufen.",
+                        "label": {
+                            "location": "Standort",
+                            "bookings": "Buchungen",
+                            "check_ins": "Check-Ins",
+                            "occupancy_rate": "Auslastung"
+                        }
+                    }
                 }
             }
         }

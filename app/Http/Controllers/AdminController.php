@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Booking;
 use App\Closing;
+use App\Library\Statistics;
 use App\Location;
 use App\Resource;
 use App\TimeSlot;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -45,7 +48,6 @@ class AdminController extends Controller
 
     public static function getResources(Request $request)
     {
-        //return Location::with('resources')->find($request->location_id);
         return Resource::with('location', 'time_slots')->where('location_id', $request->location_id)->get();
     }
 
@@ -145,12 +147,68 @@ class AdminController extends Controller
 
     public function getUserBookings(Request $request)
     {
+        $bookings = collect([]);
         $user = User::where('barcode', $request->barcode)->first();
-        $bookings = $user->bookings()->with('check_in', 'resource', 'resource.location')->withTrashed()->orderBy('date',
-            'asc')
-        ->get();
+        if ($user) {
+            $bookings = $user->bookings()
+                ->with('check_in', 'resource', 'resource.location')
+                ->withTrashed()
+                ->orderBy('date', 'asc')
+                ->get();
+        }
 
         return $bookings;
     }
 
+    public static function getLazyUsers()
+    {
+        $fuckers = [];
+        $bookings = Booking::withTrashed()->where('deleted_by_user', false)->get();
+
+        foreach ($bookings as $booking) {
+            $check_in = $booking->check_in;
+            if ($check_in === null && $booking->user) {
+                if (key_exists($booking->user->barcode, $fuckers)) {
+                    $fuckers[$booking->user->barcode]++;
+                } else {
+                    $fuckers[$booking->user->barcode] = 1;
+                }
+            }
+            /*
+            else {
+                if (key_exists('UNKNOWN', $fuckers)) {
+                    $fuckers['UNKNOWN']++;
+                } else {
+                    $fuckers['UNKNOWN'] = 1;
+                }
+            }
+            */
+        }
+
+        $fuckers = array_filter($fuckers, function($value) {
+            return $value >= 2;
+        });
+
+        arsort($fuckers);
+
+        return $fuckers;
+    }
+
+    public static function getOccupancyRates(Request $request)
+    {
+        $date = $request->date ? Carbon::parse($request->date) : Carbon::today();
+        $locations = Location::get();
+        $occupancy = [];
+
+        foreach ($locations as $location) {
+            $occupancy[] = [
+                'location' => $location->name,
+                'bookings' => Statistics::getBookingCount($location, $date),
+                'check_ins' => Statistics::getCheckInCount($location, $date),
+                'rate' => Statistics::getBookingsWithCheckInRatio($location, $date)
+            ];
+        }
+
+        return $occupancy;
+    }
 }

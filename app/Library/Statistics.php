@@ -12,6 +12,19 @@ class Statistics
 {
     public static function getBookingCount(Location $location, Carbon $date)
     {
+        $bookings = Booking::withTrashed()
+            ->join('resources','bookings.resource_id','=','resources.id')
+            ->join('locations','resources.location_id','=','locations.id')
+            ->where('locations.id','=',$location->id)
+            ->whereDate('date', $date)
+            ->where('deleted_by_user', false)
+            ->count();
+
+        return $bookings;
+    }
+
+    public static function getOldBookingCount(Location $location, Carbon $date)
+    {
         $bookings = Booking::whereDate('date', $date)->where('deleted_by_user', false)->withTrashed()->get();
         $bookings = $bookings->filter(function ($booking) use ($location) {
             return $booking->resource->location->id === $location->id;
@@ -21,6 +34,18 @@ class Statistics
     }
 
     public static function getCheckInCount(Location $location, Carbon $date)
+    {
+        $check_ins = CheckIn::whereDate('check_in', $date)
+            ->join('bookings','checkins.booking_id','=','bookings.id')
+            ->join('resources','bookings.resource_id','=','resources.id')
+            ->join('locations','resources.location_id','=','locations.id')
+            ->where('locations.id','=',$location->id)
+            ->count();
+
+        return $check_ins;
+    }
+
+    public static function getOldCheckInCount(Location $location, Carbon $date)
     {
         $check_ins = CheckIn::whereDate('check_in', $date)->get();
         $check_ins = $check_ins->filter(function ($check_in) use ($location) {
@@ -32,11 +57,14 @@ class Statistics
 
     public static function getCheckOutCount(Location $location, Carbon $date)
     {
-        $check_outs = CheckIn::whereDate('check_out', $date)->get();
-        $check_outs = $check_outs->filter(function ($check_out) use ($location) {
-            return $check_out->booking()->withTrashed()->first()->resource->location->id === $location->id;
-        });
-        return $check_outs->count();
+        $check_outs = CheckIn::whereDate('check_out', $date)
+            ->join('bookings','checkins.booking_id','=','bookings.id')
+            ->join('resources','bookings.resource_id','=','resources.id')
+            ->join('locations','resources.location_id','=','locations.id')
+            ->where('locations.id','=',$location->id)
+            ->count();
+
+        return $check_outs;
     }
 
     public static function getBookingsWithCheckInRatio(Location $location, Carbon $date)

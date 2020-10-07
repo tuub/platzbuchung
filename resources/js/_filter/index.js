@@ -14,6 +14,13 @@ function formatDateWithWeekday(value) {
     return '---';
 }
 
+function formatDateForUri(value) {
+    if (value) {
+        return moment(value).format('YYYY-MM-DD');
+    }
+    return '---';
+}
+
 function formatTimeString(value) {
     if (value) {
         return moment(value, 'H:mm:ss').format('H:mm');
@@ -45,6 +52,7 @@ function formatImageUri(value, x, y) {
 export default {
     formatDate: formatDate,
     formatDateWithWeekday: formatDateWithWeekday,
+    formatDateForUri: formatDateForUri,
     formatTimeString: formatTimeString,
     formatDateTimeString: formatDateTimeString,
     formatWeekDay: formatWeekDay,

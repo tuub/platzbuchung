@@ -14,7 +14,7 @@
     <div class="row align-items-center h-100">
         <div class="col-6 mx-auto text-center">
             <img src="{{ $location->logo_uri }}" style="width: 25rem;" />
-            @if($check_in)
+            @if($is_checked_in)
                 <h1 class="text-2xl font-bold mt-5 mb-5">{{ $title }}</h1>
                 <p class="lead font-weight-bold" style="color: {{ $booking->resource->text_color }}; background-color: {{ $booking->resource->color }}">{!! $text !!}</p>
             @else

@@ -15,7 +15,7 @@
         <div class="col-6 mx-auto text-center">
             <img src="{{ $location->logo_uri }}" style="width: 25rem;" />
 
-            @if($check_out)
+            @if($is_checked_out)
                 <h1 class="text-2xl font-bold mt-5 mb-5">@lang('app.checkout.status.checkout_success.title')</h1>
                 <p class="lead font-weight-bold">@lang('app.checkout.status.checkout_success.text')</p>
             @else
