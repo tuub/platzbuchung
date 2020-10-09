@@ -236,6 +236,13 @@ Uses the internal scheduler. Uses the given location UID (e.g. 'zb', see adminis
 ````
 The command frequency can be configured here: [app/Console/Kernel.php](app/Console/Kernel.php).
 
+### Batch-add time slots
+If you have your location(s) and the accompaning resource(s) ready you can add time slots in batch mode. Pretty conveniet for larger edit and much faster than going through the admin GUI.
+````
+php artisan platzbuchung:add-timeslots
+````
+You'll interactively get asked several questions to add your  time slots as you need them.
+
 ### GDPR deletion
 ````
 php artisan platzbuchung:cleanup-userdata
