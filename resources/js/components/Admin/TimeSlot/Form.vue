@@ -12,10 +12,10 @@
                 ></b-form-radio-group>
             </b-form-group>
             <b-form-group id="start-field" :label="$t('app.admin.time_slots.form.fields.start.label')" label-for="start" class="font-weight-bold text-uppercase">
-                <b-form-timepicker id="start" name="start" v-model="timeSlot.start"  minutes-step="30" close-button reset-button></b-form-timepicker>
+                <b-form-timepicker id="start" name="start" v-model="timeSlot.start"  minutes-step="15" close-button reset-button></b-form-timepicker>
             </b-form-group>
             <b-form-group id="end-field" :label="$t('app.admin.time_slots.form.fields.end.label')" label-for="end" class="font-weight-bold text-uppercase">
-                <b-form-timepicker id="end" name="end" v-model="timeSlot.end"  minutes-step="30" close-button reset-button></b-form-timepicker>
+                <b-form-timepicker id="end" name="end" v-model="timeSlot.end"  minutes-step="15" close-button reset-button></b-form-timepicker>
             </b-form-group>
             <b-form-group id="date_from-field" :label="$t('app.admin.time_slots.form.fields.date_from.label')" label-for="date_from" class="font-weight-bold text-uppercase">
                 <b-form-datepicker id="date_from" name="date_from" v-model="timeSlot.date_from" close-button reset-button></b-form-datepicker>
