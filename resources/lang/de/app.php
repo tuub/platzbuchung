@@ -175,7 +175,9 @@ return [
                 'usage_notes_general_3' => 'Bitte bringen Sie Arbeitsmaterialien wie Laptop, Stifte und Papier mit.',
                 'usage_notes_general_4' => 'Für den Einlass ins Gebäude ist das Vorzeigen Ihres Bibliotheksausweises (bei TU-Studierenden der Studierendenausweis) erforderlich.',
                 'usage_notes_general_5' => 'Aufgrund der Regulierung des Zutritts zum Gebäude kann es zu Wartezeiten kommen. Bitte planen Sie dies ein.',
-                'usage_notes_general_6' => 'Das Tragen eines Mund-Nasen-Schutz ist verpflichtend, soweit sie sich nicht auf ihrem Sitzplatz aufhalten.',
+                //'usage_notes_general_6' => 'Das Tragen eines Mund-Nasen-Schutz ist verpflichtend, soweit sie sich
+                // nicht auf ihrem Sitzplatz aufhalten.',
+                'usage_notes_general_6' => 'Das Tragen eines Mund-Nasen-Schutz ist verpflichtend, auch am Arbeitsplatz.',
                 'usage_notes_general_7' => 'Ihre Reservierung gilt jeweils für den gesamten gebuchten Zeitraum. Sie verfällt nicht automatisch, wenn Sie sich erst im Laufe des Tages oder gar nicht einchecken. Stornieren Sie daher bitte Ihre Buchung, falls Sie den Termin nicht wahrnehmen können.',
             ],
             'usage_notes_in_practice_hl' => 'Vor Ort',
