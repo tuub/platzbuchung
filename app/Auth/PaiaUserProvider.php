@@ -69,75 +69,96 @@ class PaiaUserProvider implements UserProvider
         }
 
         $user = null;
+        $userData = null;
 
-        // Login & token (suppress warning on wrong url/user/password)
-        $patron         = @file_get_contents(env('AUTH_ENDPOINT').'/auth/login?username='.$credentials['username'].'&password='.$credentials['password'].'&grant_type=password&scope=read_patron');
-        $http_status    = explode(' ', $http_response_header[0])[1]; // https://www.php.net/manual/en/reserved.variables.httpresponseheader.php
-
-        // Error in request?
-        if (!$patron || ($http_status < 200 && $http_status >= 300)) {
-            Log::channel('auth')->info("No access. HTTP Status: $http_status");
-            return null;
-        }
-        Log::channel('auth')->info('Login ok');
-
-        // PAIA token is valid for 3600 seconds
-        $access_token   = json_decode($patron, true)['access_token'];
-
-        // Get user data
-        $patron_data_json = file_get_contents(env('AUTH_ENDPOINT').'/core/'.$credentials['username'].'?access_token='.$access_token);
-        $patron_data      = json_decode($patron_data_json, true);
-
-        /* No session data needed yet...
-            // Maybe use session data later to check if a email is set. And if so don't ask for phone number
-            // Maybe use for user type (different reservation conditions for students and external patrons)
-        $session_data = [
-            'auth_message' => $response['result']['messg'],
-        ];
-        session()->put($session_data);
-        */
-
-        if ($access_token) {
-            // Usertype (might be useful to restrict access by patron status)
-            $user_type = explode(':', $patron_data['type'][0])[2];
-
-            // Membership valid in days (just an example)
-            $today  = new DateTime();
-            $expiry = DateTime::createFromFormat('Y-m-d', $patron_data['expires']);
-            $interval = $today->diff($expiry);
-            //echo $today->format('d.m.Y').'<br>'. $expiry->format('d.m.Y').'<br>'.$interval->format('%R%a days').'<br>';
-
-            // Status
-            //echo $patron_data['status'].'<br>'; // 0 = active, 1 = inactive (OUS-Status 8 (Ausweisverlust), 9 "Siehe interne Bemerkung"),  2 = inactive because account expired, 3 = inactive because of outstanding fees, 4 = inactive because account expired and outstanding fees
-
+        // Is this the configured general admin user? Otherwise call the configured external auth webservice
+        if ($credentials['username'] == getenv('ADMIN_USER') && $credentials['password'] == getenv('ADMIN_PASSWORD')) {
             $userData = [
-                'username' => $patron_data['name'],
-                'barcode' => $credentials['username'],
-                'email' => $patron_data['email'],
+                'username' => getenv('ADMIN_USER'),
+                'barcode' => '0000',
+                'phone' => '0000',
+                'email' => getenv('ADMIN_EMAIL'),
                 'is_healthy' => true,
             ];
+        } else {
+            // Login & token (suppress warning on wrong url/user/password)
+            $patron = @file_get_contents(
+                env(
+                    'AUTH_ENDPOINT'
+                ) . '/auth/login?username=' . $credentials['username'] . '&password=' . $credentials['password'] . '&grant_type=password&scope=read_patron'
+            );
+            $http_status = explode(
+                ' ', $http_response_header[0]
+            )[1]; // https://www.php.net/manual/en/reserved.variables.httpresponseheader.php
 
-            $user = User::where('username', $userData['username'])->first();
+            // Error in request?
+            if (!$patron || ($http_status < 200 && $http_status >= 300)) {
+                Log::channel('auth')->info("No access. HTTP Status: $http_status");
 
-            // The data for the mysql "user" table
-            if ($user) {
-                $user->update([
-                    'barcode' => $userData['barcode'],
-                    'email' => $userData['email'],
-                    'is_healthy' => $userData['is_healthy'],
-                    'last_login' => Carbon::now(),
-                ]);
-                Log::channel('auth')->info('Updated user.');
-            } else {
-                $user = User::create([
-                    'username' => $userData['username'],
-                    'barcode' => $userData['barcode'],
-                    'email' => $userData['email'],
-                    'is_healthy' => $userData['is_healthy'],
-                    'last_login' => Carbon::now(),
-                ]);
-                Log::channel('auth')->info('Created user.');
+                return null;
             }
+            Log::channel('auth')->info('Login ok');
+
+            // PAIA token is valid for 3600 seconds
+            $access_token = json_decode($patron, true)['access_token'];
+
+            // Get user data
+            $patron_data_json = file_get_contents(
+                env('AUTH_ENDPOINT') . '/core/' . $credentials['username'] . '?access_token=' . $access_token
+            );
+            $patron_data = json_decode($patron_data_json, true);
+
+            /* No session data needed yet...
+                // Maybe use session data later to check if a email is set. And if so don't ask for phone number
+                // Maybe use for user type (different reservation conditions for students and external patrons)
+            $session_data = [
+                'auth_message' => $response['result']['messg'],
+            ];
+            session()->put($session_data);
+            */
+
+            if ($access_token) {
+                // Usertype (might be useful to restrict access by patron status)
+                $user_type = explode(':', $patron_data['type'][0])[2];
+
+                // Membership valid in days (just an example)
+                $today = new DateTime();
+                $expiry = DateTime::createFromFormat('Y-m-d', $patron_data['expires']);
+                $interval = $today->diff($expiry);
+                //echo $today->format('d.m.Y').'<br>'. $expiry->format('d.m.Y').'<br>'.$interval->format('%R%a days').'<br>';
+
+                // Status
+                //echo $patron_data['status'].'<br>'; // 0 = active, 1 = inactive (OUS-Status 8 (Ausweisverlust), 9 "Siehe interne Bemerkung"),  2 = inactive because account expired, 3 = inactive because of outstanding fees, 4 = inactive because account expired and outstanding fees
+
+                $userData = [
+                    'username' => $patron_data['name'],
+                    'barcode' => $credentials['username'],
+                    'email' => $patron_data['email'],
+                    'is_healthy' => true,
+                ];
+            }
+        }
+
+        $user = $userData ? User::where('username', $userData['username'])->first() : null;
+
+        // The data for the mysql "user" table
+        if ($user) {
+            $user->update([
+                'barcode' => $userData['barcode'],
+                'email' => $userData['email'],
+                'is_healthy' => $userData['is_healthy'],
+                'last_login' => Carbon::now(),
+            ]);
+            Log::channel('auth')->info('Updated user.');
+        } else {
+            $user = User::create([
+                'username' => $userData['username'],
+                'barcode' => $userData['barcode'],
+                'email' => $userData['email'],
+                'is_healthy' => $userData['is_healthy'],
+                'last_login' => Carbon::now(),
+            ]);
+            Log::channel('auth')->info('Created user.');
         }
 
         return $user;

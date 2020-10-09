@@ -3,6 +3,7 @@
         <div class="text-center w-25 mx-auto">
             <h1 class="text-center">{{ $t('app.admin.bookings.title') }}</h1>
             <p class="block mt-3 mb-3">{{ $t('app.admin.bookings.description') }}</p>
+            <b-button :to="{ name: 'admin_index' }">{{ $t('app.admin.locations.action.admin_index') }}</b-button>
             <b-form>
                 <b-form-group id="barcode-field" :label="$t('app.admin.bookings.form.index.barcode.label')" label-for="barcode" class="font-weight-bold text-uppercase">
                     <b-input-group

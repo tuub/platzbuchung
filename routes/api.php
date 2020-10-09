@@ -56,6 +56,11 @@ Route::group([ 'middleware' => 'api' ], function ($router) {
     Route::post('admin/time_slot/{id}/update', 'AdminController@updateTimeSlot');
     Route::post('admin/time_slot/{id}/delete', 'AdminController@deleteTimeSlot');
 
+    Route::get('admin/permissions', 'AdminController@getPermissions');
+    Route::post('admin/permission/save', 'AdminController@savePermission');
+    Route::post('admin/permission/{barcode}/delete', 'AdminController@deletePermission');
+
     Route::get('admin/bookings/{barcode?}', 'AdminController@getUserBookings');
+
     Route::get('admin/statistics/occupancies/{date?}', 'AdminController@getOccupancyRates');
 });

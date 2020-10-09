@@ -56,67 +56,79 @@ class AlmaUserProvider implements UserProvider
 
         $log = [];
         $user = null;
+        $userData = null;
 
-        $ws_credentials = [
-            'uid' => $credentials['username'],
-            'pw' => $credentials['password'],
-        ];
-
-        $response = Curl::to(env('AUTH_ENDPOINT'))
-            ->withData($ws_credentials)
-            ->withOption('SSL_VERIFYHOST', 0)
-            ->withOption('SSL_VERIFYPEER', 0)
-            ->withOption('POST', 1)
-            ->withOption('RETURNTRANSFER', true)
-            ->enableDebug(storage_path('curl.debug.log'))
-            ->post();
-
-        $response = preg_replace('/[\n\r]|\s{2,}/', '', $response);
-        $response = XmlToArray::convert($response);
-
-        $log['Credentials'] = $ws_credentials['uid'];
-        $log['Response'] = $response['result'];
-
-        $session_data = [
-            'auth_message' => $response['result']['messg'],
-        ];
-
-        session()->put($session_data);
-
-        /*
-         * CODE 0 = Login OK
-         * CODE 1 = Wrong credentials
-         */
-
-        if ($response['result']['code'] == 0) {
-
+        // Is this the configured general admin user? Otherwise call the configured external auth webservice
+        if ($credentials['username'] == getenv('ADMIN_USER') && $credentials['password'] == getenv('ADMIN_PASSWORD')) {
             $userData = [
-                'username' => $response['result']['primary_id'],
-                'barcode' => $response['result']['barcode'],
-                'email' => $response['result']['email_address'],
+                'username' => getenv('ADMIN_USER'),
+                'barcode' => '0000',
+                'phone' => '0000',
+                'email' => getenv('ADMIN_EMAIL'),
                 'is_healthy' => true,
             ];
+        } else {
+            $ws_credentials = [
+                'uid' => $credentials['username'],
+                'pw' => $credentials['password'],
+            ];
 
-            $user = User::where('username', $userData['username'])->first();
+            $response = Curl::to(env('AUTH_ENDPOINT'))
+                ->withData($ws_credentials)
+                ->withOption('SSL_VERIFYHOST', 0)
+                ->withOption('SSL_VERIFYPEER', 0)
+                ->withOption('POST', 1)
+                ->withOption('RETURNTRANSFER', true)
+                ->enableDebug(storage_path('curl.debug.log'))
+                ->post();
 
-            if ($user) {
-                $user->update([
-                    'barcode' => $userData['barcode'],
-                    'email' => $userData['email'],
-                    'is_healthy' => $userData['is_healthy'],
-                    'last_login' => Carbon::now(),
-                ]);
-            } else {
-                $user = User::create([
-                    'username' => $userData['username'],
-                    'barcode' => $userData['barcode'],
-                    'email' => $userData['email'],
-                    'is_healthy' => $userData['is_healthy'],
-                    'last_login' => Carbon::now(),
-                ]);
+            $response = preg_replace('/[\n\r]|\s{2,}/', '', $response);
+            $response = XmlToArray::convert($response);
+
+            $log['Credentials'] = $ws_credentials['uid'];
+            $log['Response'] = $response['result'];
+
+            $session_data = [
+                'auth_message' => $response['result']['messg'],
+            ];
+
+            session()->put($session_data);
+
+            /*
+             * CODE 0 = Login OK
+             * CODE 1 = Wrong credentials
+             */
+
+            if ($response['result']['code'] == 0) {
+
+                $userData = [
+                    'username' => $response['result']['primary_id'],
+                    'barcode' => $response['result']['barcode'],
+                    'email' => $response['result']['email_address'],
+                    'is_healthy' => true,
+                ];
             }
-            $log['User'] = $user;
         }
+
+        $user = $userData ? User::where('username', $userData['username'])->first() : null;
+
+        if ($user) {
+            $user->update([
+                'barcode' => $userData['barcode'],
+                'email' => $userData['email'],
+                'is_healthy' => $userData['is_healthy'],
+                'last_login' => Carbon::now(),
+            ]);
+        } else {
+            $user = User::create([
+                'username' => $userData['username'],
+                'barcode' => $userData['barcode'],
+                'email' => $userData['email'],
+                'is_healthy' => $userData['is_healthy'],
+                'last_login' => Carbon::now(),
+            ]);
+        }
+        $log['User'] = $user;
 
         Log::channel('auth')->info(Utility::implodeWithKeys(', ', $log, ' = '));
 

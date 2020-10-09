@@ -214,4 +214,41 @@ class AdminController extends Controller
 
         return $occupancy;
     }
+
+    public static function getPermissions()
+    {
+        $users = User::where('is_admin', true)->get();
+
+        return $users;
+    }
+
+    public function savePermission(Request $request)
+    {
+        $op = null;
+        $barcode = $request->barcode;
+        $user = User::where('barcode', $barcode)->first();
+
+        if ($user) {
+            $op = $user->update([
+                'is_admin' => true
+            ]);
+        }
+
+        return $op;
+    }
+
+    public function deletePermission(Request $request)
+    {
+        $op = null;
+        $barcode = $request->barcode;
+        $user = User::where('barcode', $barcode)->first();
+
+        if ($user) {
+            $op = $user->update([
+                'is_admin' => false
+            ]);
+        }
+
+        return $op;
+    }
 }

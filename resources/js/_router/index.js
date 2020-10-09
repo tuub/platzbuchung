@@ -17,6 +17,7 @@ import AdminResourceForm from './../components/Admin/Resource/Form';
 import AdminTimeSlotIndex from './../components/Admin/TimeSlot/Index';
 import AdminTimeSlotForm from './../components/Admin/TimeSlot/Form';
 import AdminBookingIndex from './../components/Admin/Booking/Index';
+import AdminPermissionIndex from './../components/Admin/Permission/Index';
 import AdminStatisticIndex from './../components/Admin/Statistic/Index';
 import {store} from "../_store";
 import axios from "axios";
@@ -150,6 +151,15 @@ const routes = [
         path: '/admin/bookings',
         name: 'admin_booking_index',
         component: AdminBookingIndex,
+        meta: {
+            requiresAuth: true,
+            requiresAdmin: true,
+        }
+    },
+    {
+        path: '/admin/permissions',
+        name: 'admin_permission_index',
+        component: AdminPermissionIndex,
         meta: {
             requiresAuth: true,
             requiresAdmin: true,

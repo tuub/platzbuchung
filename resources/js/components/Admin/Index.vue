@@ -21,6 +21,14 @@
                 </b-card>
             </b-col>
             <b-col>
+                <b-card :title="$t('app.admin.permissions.title')" img-src="" img-alt="" img-top tag="article" style="max-width: 20rem;" class="mb-2">
+                    <b-card-text>
+                        {{ $t('app.admin.permissions.description') }}
+                    </b-card-text>
+                    <b-button :to="{ name: 'admin_permission_index' }" variant="primary">Verwalten</b-button>
+                </b-card>
+            </b-col>
+            <b-col>
                 <b-card :title="$t('app.admin.statistics.title')" img-src="" img-alt="" img-top tag="article" style="max-width: 20rem;" class="mb-2">
                     <b-card-text>
                         {{ $t('app.admin.statistics.description') }}

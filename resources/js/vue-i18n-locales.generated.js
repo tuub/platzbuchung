@@ -540,6 +540,30 @@ export default {
                     },
                     "status": []
                 },
+                "permissions": {
+                    "title": "Admin-Berechtigungen",
+                    "description": "Hier können Sie Admin-Berechtigungen vergeben.",
+                    "label": {
+                        "username": "Benutzername",
+                        "barcode": "Barcode",
+                        "actions": "Aktionen"
+                    },
+                    "action": {
+                        "new": "Neu",
+                        "delete": "Löschen"
+                    },
+                    "form": {
+                        "index": {
+                            "barcode": {
+                                "label": "Barcode",
+                                "placeholder": "Barcode"
+                            },
+                            "submit_value": "Berechtigung hinzufügen",
+                            "submit_progress_value": "Füge Berechtigung hinzu ..."
+                        }
+                    },
+                    "status": []
+                },
                 "statistics": {
                     "title": "Statistiken",
                     "description": "Hier können Sie verschiedene Statistiken einsehen.",
