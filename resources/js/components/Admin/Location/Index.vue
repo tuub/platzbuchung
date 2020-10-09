@@ -73,7 +73,7 @@
             deleteLocation: function(locationId) {
                 let dialog = this.$i18n.t('app.admin.locations.form.delete.message');
                 if (confirm(dialog)) {
-                    axios.post('api/admin/location/' + locationId + 'delete').then((response) => {
+                    axios.post('api/admin/location/' + locationId + '/delete').then((response) => {
                         this.getLocations();
                     }).catch(error => {
                         console.log(error);
