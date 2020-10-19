@@ -1,4 +1,7 @@
 /* Base */
+td.panel-item p {
+    font-size: 1.3rem !important;
+}
 
 body, body *:not(html):not(style):not(br):not(tr):not(code) {
     font-family: Avenir, Helvetica, sans-serif;
@@ -6,7 +9,6 @@ body, body *:not(html):not(style):not(br):not(tr):not(code) {
 }
 
 body {
-    background-color: #f5f8fa;
     color: #74787e;
     height: 100%;
     hyphens: auto;
@@ -250,6 +252,7 @@ img {
 .panel-content {
     background-color: #e5ebf5;
     padding: 16px;
+    font-size: 22px !important;
 }
 
 .panel-item {
