@@ -156,7 +156,7 @@ export default {
             },
             "mail": {
                 "booking_confirmation": {
-                    "subject": "Terminbestätigung",
+                    "subject": "Terminbestätigung {date}, {location}",
                     "title": "Terminbestätigung",
                     "hello": "",
                     "goodbye": "Vielen Dank!",
@@ -167,27 +167,27 @@ export default {
                     "date": "Datum",
                     "time": "Uhrzeit",
                     "time_value": "{booking_start} - {booking_end} Uhr",
-                    "advice_library_card": "Bitte bringen Sie Ihren Bibliotheksausweis mit (für TU-Studierende gilt der Studierendenausweis als Bibliotheksausweis). Diesen benötigen Sie für den Check-in und Check-out. Ein Einlass ohne Bibliotheksausweis ist nicht möglich.",
-                    "usage_notes_general_hl": "Bitte beachten Sie die folgenden Hinweise zur Nutzung von Arbeitsplätzen",
+                    "advice_library_card": "Bitte bringen Sie Ihren Bibliotheksausweis mit (bei TU-Studierenden der Studierendenausweis; bei TU-Beschäftigten der Dienstausweis, wenn als Bibliotheksausweis registriert). Diesen benötigen Sie für den Check-in und Check-out. Ein Einlass ohne Bibliotheksausweis ist nicht möglich.",
+                    "usage_notes_general_hl": "Beachten Sie die folgenden Hinweise zur Nutzung von Arbeitsplätzen",
                     "usage_notes_general": {
                         "usage_notes_general_1": "Eine Arbeitsplatznutzung ist nur nach vorheriger Anmeldung im Buchungssystem möglich.",
                         "usage_notes_general_2": "Vor Ort erfolgt über das Ein- und Auschecken eine Anwesenheitsdokumentation nach §3 <a href=\"https://www.berlin.de/corona/massnahmen/verordnung/\" target=\"_blank\">SARS-CoV-2-Infektionsschutzverordnung</a>.",
-                        "usage_notes_general_3": "Bitte bringen Sie Arbeitsmaterialien wie Laptop, Stifte und Papier mit.",
+                        "usage_notes_general_3": "Bringen Sie Arbeitsmaterialien wie Laptop, Stifte und Papier mit.",
                         "usage_notes_general_4": "Für den Einlass ins Gebäude ist das Vorzeigen Ihres Bibliotheksausweises (bei TU-Studierenden der Studierendenausweis) erforderlich.",
                         "usage_notes_general_5": "Aufgrund der Regulierung des Zutritts zum Gebäude kann es zu Wartezeiten kommen. Bitte planen Sie dies ein.",
-                        "usage_notes_general_6": "Das Tragen eines Mund-Nasen-Schutz ist verpflichtend, auch am Arbeitsplatz.",
-                        "usage_notes_general_7": "Ihre Reservierung gilt jeweils für den gesamten gebuchten Zeitraum. Sie verfällt nicht automatisch, wenn Sie sich erst im Laufe des Tages oder gar nicht einchecken. Stornieren Sie daher bitte Ihre Buchung, falls Sie den Termin nicht wahrnehmen können."
+                        "usage_notes_general_6": "Das Tragen eines Mund-Nasen-Schutzes ist verpflichtend, auch am Arbeitsplatz. Beachten Sie die aktuellen Hinweise auf den Webseiten der Bibliothek unter <a href=\"https://www.ub.tu-berlin.de/aktuelles/coronafaq/#c55102\">https://www.ub.tu-berlin.de/aktuelles/coronafaq/#c55102</a>.",
+                        "usage_notes_general_7": "Ihre Reservierung gilt jeweils für den gesamten gebuchten Zeitraum. Sie verfällt nicht automatisch, wenn Sie sich erst im Laufe des Tages oder gar nicht einchecken. Stornieren Sie daher Ihre Buchung, falls Sie den Termin nicht wahrnehmen können, damit andere die Chance haben, den Platz zu buchen."
                     },
                     "usage_notes_in_practice_hl": "Vor Ort",
                     "usage_notes_in_practice": {
                         "zb": {
-                            "usage_notes_in_practice_1": "Nach dem Betreten des Gebäudes loggen Sie sich am Check-in-Schalter mit Ihrem Bibliotheksausweis (bei TU-Studierenden der Studierendenausweis) ein.",
-                            "usage_notes_in_practice_2": "Bitte nehmen Sie sich einen Korb in der zugewiesenen Etagenfarbe und begeben sich auf direktem Weg zu der Etage, auf der Ihr Sitzplatz gebucht ist. Auf der gebuchten Etage haben Sie freie Sitzplatzwahl.",
+                            "usage_notes_in_practice_1": "Nach dem Betreten des Gebäudes loggen Sie sich am Check-in-Schalter mit Ihrem Bibliotheksausweis ein.",
+                            "usage_notes_in_practice_2": "Nehmen Sie sich einen Korb in der zugewiesenen Etagenfarbe und begeben sich auf direktem Weg zu der Etage, auf der Ihr Sitzplatz gebucht ist. Auf der gebuchten Etage haben Sie freie Sitzplatzwahl.",
                             "usage_notes_in_practice_3": "Wenn Sie sich im Gebäude bewegen oder eine Pause machen, führen Sie Ihren Korb bitte immer mit sich.",
                             "usage_notes_in_practice_4": "Ihren Arbeitsplatz reinigen Sie vor und nach der Benutzung mit den bereitgestellten Reinigungsmaterialien.",
-                            "usage_notes_in_practice_5": "Bitte achten Sie darauf, ausreichend Sicherheitsabstand zu anderen Personen zu halten.",
+                            "usage_notes_in_practice_5": "Achten Sie darauf, ausreichend Sicherheitsabstand zu anderen Personen zu halten.",
                             "usage_notes_in_practice_6": "Sanitäranlagen stehen nur zur Einzelnutzung zur Verfügung. Desinfektionsmöglichkeiten werden bereitgestellt.",
-                            "usage_notes_in_practice_7": "Beim Verlassen des Gebäudes loggen Sie sich am Check-out-Schalter mit Ihrem Bibliotheksausweis aus und stellen den Korb zurück."
+                            "usage_notes_in_practice_7": "Beim endgültigen Verlassen des Gebäudes loggen Sie sich am Check-out-Schalter mit Ihrem Bibliotheksausweis aus und stellen den Korb zurück."
                         },
                         "mathe": {
                             "usage_notes_in_practice_1": "Nach dem Betreten des Mathematik-Gebäudes zeigen Sie bitte die Buchungsbestätigung ausgedruckt oder auf Ihrem Smartphone an der Pförtnerloge vor.",
@@ -210,7 +210,7 @@ export default {
                             "usage_notes_in_practice_4": "Kommen Sie mit Ihrem Bibliotheksausweis zur Ausleihtheke und lassen Sie sich einchecken.",
                             "usage_notes_in_practice_5": "Sie haben freie Platzwahl.",
                             "usage_notes_in_practice_6": "Ihren Arbeitsplatz reinigen Sie vor und nach der Benutzung mit den bereitgestellten Reinigungsmaterialien.",
-                            "usage_notes_in_practice_7": "Bitte achten Sie darauf, ausreichend Sicherheitsabstand zu anderen Personen zu halten.",
+                            "usage_notes_in_practice_7": "Achten Sie darauf, ausreichend Sicherheitsabstand zu anderen Personen zu halten.",
                             "usage_notes_in_practice_8": "Sanitäranlagen stehen auf der Etage außerhalb der Bibliothek zur Verfügung.",
                             "usage_notes_in_practice_9": "Desinfektionsmittel werden bereitgestellt.",
                             "usage_notes_in_practice_10": "Führen Sie Ihren Korb stets mit sich, auch wenn Sie eine Pause machen und die Bibliothek verlassen.",
@@ -222,7 +222,7 @@ export default {
                             "usage_notes_in_practice_3": "Kommen Sie mit Ihrem Bibliotheksausweis zur Ausleihtheke und lassen Sie sich einchecken.",
                             "usage_notes_in_practice_4": "Sie haben freie Platzwahl.",
                             "usage_notes_in_practice_5": "Ihren Arbeitsplatz reinigen Sie vor und nach der Benutzung mit den bereitgestellten Reinigungsmaterialien.",
-                            "usage_notes_in_practice_6": "Bitte achten Sie darauf, ausreichend Sicherheitsabstand zu anderen Personen zu halten.",
+                            "usage_notes_in_practice_6": "Achten Sie darauf, ausreichend Sicherheitsabstand zu anderen Personen zu halten.",
                             "usage_notes_in_practice_7": "Sanitäranlagen stehen auf der Etage außerhalb der Bibliothek zur Verfügung.",
                             "usage_notes_in_practice_8": "Desinfektionsmittel werden bereitgestellt.",
                             "usage_notes_in_practice_9": "Führen Sie Ihren Korb stets mit sich, auch wenn Sie eine Pause machen und die Bibliothek verlassen.",

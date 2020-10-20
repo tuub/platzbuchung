@@ -156,7 +156,7 @@ return [
     ],
     'mail' => [
         'booking_confirmation' => [
-            'subject' => 'Terminbestätigung',
+            'subject' => 'Terminbestätigung :date, :location',
             'title' => 'Terminbestätigung',
             'hello' => '',
             'goodbye' => 'Vielen Dank!',
