@@ -59,6 +59,9 @@ You will then need to add an `.env` file with your configuration. A boilerplate 
 | APP_URL | The base URL of the application | https://example.org/platzbuchung |
 | APP_VERSION | The current version of the app  | 1.1 |
 | APP_LOGO | The path to the logo file | images/logo.svg (points to public/images directory) |
+| ADMIN_USER | The admin username to setup | groot |
+| ADMIN_PASSWORD | The admin password to setup | gr00t! |
+| ADMIN_EMAIL | The admin email address to setup | info@example.org |
 | TELESCOPE_ENABLED | Whether the debug tool Telescope" should be available under &lt;APP_URL&gt;/telescope | false
 | AUTH_ENDPOINT | Our external authentication server | "https://external.auth.webservice"
 | AUTH_METHOD | Authentication type | possible: "alma", "paia" (GBV), "eloquent" (laravel built-in authentication system)
