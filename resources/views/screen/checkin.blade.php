@@ -16,8 +16,11 @@
         <div class="col-6 mx-auto text-center">
             <img src="{{ $location->logo_uri }}" style="width: 25rem;" />
             <h3 class="text-xl font-bold mt-5 mb-0">{{ $location->name }}</h3>
-            <h1 class="text-2xl font-bold mt-3 mb-5">@lang('app.checkin.title')</h1>
+            <h1 class="text-2xl font-bold mt-3 mb-3">@lang('app.checkin.title')</h1>
             <p class="lead">@lang('app.checkin.text_1')</p>
+            @if ($location->is_pre_check_in_displayed && $location->allowed_minutes_for_pre_check_in > 0)
+                <p class="lead">@lang('app.checkin.pre_check_in', ['allowed_minutes_for_pre_check_in' => $location->allowed_minutes_for_pre_check_in])</p>
+            @endif
             <p class="lead">@lang('app.checkin.text_2')</p>
             <form action="{{ route('post_checkin') }}" method="post">
                 <input type="hidden" name="location" id="location" value="{{ $location->id }}">

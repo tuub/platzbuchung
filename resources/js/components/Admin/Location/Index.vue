@@ -15,7 +15,6 @@
                     <b-th>{{ $t('app.admin.locations.label.email') }}</b-th>
                     <b-th>{{ $t('app.admin.locations.label.logo') }}</b-th>
                     <b-th>{{ $t('app.admin.locations.label.image') }}</b-th>
-                    <b-th>{{ $t('app.admin.locations.label.coordinates') }}</b-th>
                     <b-th>{{ $t('app.admin.locations.label.days_in_advance') }}</b-th>
                     <b-th>{{ $t('app.admin.locations.label.user_booking_quota') }}</b-th>
                     <b-th>{{ $t('app.admin.locations.label.actions') }}</b-th>
@@ -27,11 +26,16 @@
                     <b-td>{{ location.name }}</b-td>
                     <b-td>{{ location.address }}</b-td>
                     <b-td>{{ location.email }}</b-td>
-                    <b-td><span v-html="$options.filters.formatImageUri(location.logo_uri, 125, y)"></span></b-td>
-                    <b-td><span v-html="$options.filters.formatImageUri(location.image_uri, 125, y)"></span></b-td>
-                    <b-td>{{ location.latitude }},{{ location.longitude }}</b-td>
-                    <b-td>{{ location.display_days_in_advance }}</b-td>
-                    <b-td>{{ location.user_booking_quota }}</b-td>
+                    <b-td class="text-center">
+                        <span class="text-success icon" v-if="location.logo_uri">&check;</span>
+                        <span class="text-danger icon" v-else>&times;</span>
+                    </b-td>
+                    <b-td class="text-center">
+                        <span class="text-success icon" v-if="location.image_uri">&check;</span>
+                        <span class="text-danger icon" v-else>&times;</span>
+                    </b-td>
+                    <b-td class="text-center">{{ location.display_days_in_advance }}</b-td>
+                    <b-td class="text-center">{{ location.user_booking_quota }}</b-td>
                     <b-td>
                         <b-button class="btn-block d-block" size="sm" :to="{ name: 'admin_location_form', query: { location_id: location.id } }">
                             {{ $t('app.admin.locations.action.edit') }}

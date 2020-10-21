@@ -22,6 +22,10 @@
 
 ## @lang('app.mail.booking_confirmation.usage_notes_in_practice_hl')
 
+@if ($location->is_pre_check_in_displayed && $location->allowed_minutes_for_pre_check_in > 0)
+* @lang('app.mail.booking_confirmation.pre_check_in', ['allowed_minutes_for_pre_check_in' => $location->allowed_minutes_for_pre_check_in])
+@endif
+
 @foreach($usage_notes_in_practice as $usage_note)
 * {!! $usage_note !!}
 @endforeach

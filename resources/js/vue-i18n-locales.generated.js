@@ -179,6 +179,7 @@ export default {
                         "usage_notes_general_7": "Ihre Reservierung gilt jeweils für den gesamten gebuchten Zeitraum. Sie verfällt nicht automatisch, wenn Sie sich erst im Laufe des Tages oder gar nicht einchecken. Stornieren Sie daher Ihre Buchung, falls Sie den Termin nicht wahrnehmen können, damit andere die Chance haben, den Platz zu buchen."
                     },
                     "usage_notes_in_practice_hl": "Vor Ort",
+                    "pre_check_in": "Sie können bereits {allowed_minutes_for_pre_check_in} Minuten vor Ihrem gebuchten Termin einchecken.",
                     "usage_notes_in_practice": {
                         "zb": {
                             "usage_notes_in_practice_1": "Nach dem Betreten des Gebäudes loggen Sie sich am Check-in-Schalter mit Ihrem Bibliotheksausweis ein.",
@@ -247,6 +248,7 @@ export default {
                 "title": "Check-In",
                 "text_1": "Bitte scannen Sie Ihren Bibliotheksausweis ein.",
                 "text_2": "Mit dem Einscannen des Bibliotheksausweises bestätigen Sie, dass Sie sich gesund fühlen. Wenn Sie Erkältungssymptome haben (z.B. Fieber oder Husten), dürfen Sie die Universitätsbibliothek nicht betreten.",
+                "pre_check_in": "Sie können an diesem Standort bereits {allowed_minutes_for_pre_check_in} Minuten vor Ihrem gebuchten Termin einchecken.",
                 "form": {
                     "checkin": {
                         "barcode": {
@@ -302,7 +304,7 @@ export default {
                         "image": "Teaser",
                         "coordinates": "Koordinaten",
                         "days_in_advance": "Tage",
-                        "user_booking_quota": "Buchungslimit",
+                        "user_booking_quota": "Limit",
                         "actions": "Aktionen"
                     },
                     "form": {
@@ -345,6 +347,19 @@ export default {
                             },
                             "user_booking_quota": {
                                 "label": "Buchungslimit je User"
+                            },
+                            "allowed_minutes_for_pre_check_in": {
+                                "label": "Erlaube Vorab-Check-In in Minuten"
+                            },
+                            "is_pre_check_in_displayed": {
+                                "label": "Anzeige der Möglichkeit eines Vorab-Check-Ins in Bestätigungs-E-Mail und auf Check-In-Seite",
+                                "value": "Anzeigen"
+                            },
+                            "seconds_until_check_in_refresh": {
+                                "label": "Dauer der Statusanzeige beim Check-In"
+                            },
+                            "seconds_until_check_out_refresh": {
+                                "label": "Dauer der Statusanzeige beim Check-Out"
                             }
                         },
                         "submit_value": "Speichern",

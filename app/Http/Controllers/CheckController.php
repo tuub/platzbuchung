@@ -82,10 +82,11 @@ class CheckController extends Controller
                 return $booking->resource->location->id == $location->id;
             });
 
-            $valid_booking = $user_bookings->filter(function ($booking) use ($now) {
+            $valid_booking = $user_bookings->filter(function ($booking) use ($now, $location) {
                 $booking_start = DateHelper::generateDateTimeFromStrings($booking->date, $booking->time_slot->start);
                 $booking_end = DateHelper::generateDateTimeFromStrings($booking->date, $booking->time_slot->end);
-                return $now->isBetween($booking_start, $booking_end);
+                return $now->isBetween($booking_start->subMinutes($location->allowed_minutes_for_pre_check_in),
+                    $booking_end);
             })->first();
 
             if ($valid_booking) {
@@ -106,7 +107,7 @@ class CheckController extends Controller
                     $check_in = CheckIn::create([
                         'user_id' => $user->id,
                         'booking_id' => $valid_booking->id,
-                        'check_in' => Carbon::now()
+                        'check_in' => $now
                     ]);
 
                     $log['Checkin'] = $check_in->id;

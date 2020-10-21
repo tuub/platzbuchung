@@ -28,6 +28,6 @@
 <script>
     setTimeout(function(){
         window.location.href = 'checkin/{{ $location->uid }}';
-    }, 5000);
+    }, {{ $location->seconds_until_check_in_refresh * 1000 }});
 </script>
 </html>

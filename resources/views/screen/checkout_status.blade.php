@@ -29,6 +29,6 @@
 <script>
     setTimeout(function(){
         window.location.href = 'checkout/{{ $location->uid }}';
-    }, 5000);
+    }, {{ $location->seconds_until_check_out_refresh * 1000 }});
 </script>
 </html>

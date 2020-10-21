@@ -11,8 +11,22 @@ class Location extends Model
     protected $table            = 'locations';
     public $timestamps          = false;
     public $incrementing        = true;
-    protected $fillable         = array('uid', 'name', 'address', 'email', 'logo_uri', 'image_uri', 'latitude',
-'longitude', 'display_days_in_advance', 'user_booking_quota');
+    protected $fillable         = [
+        'uid',
+        'name',
+        'address',
+        'email',
+        'logo_uri',
+        'image_uri',
+        'latitude',
+        'longitude',
+        'display_days_in_advance',
+        'user_booking_quota',
+        'allowed_minutes_for_pre_check_in',
+        'is_pre_check_in_displayed',
+        'seconds_until_check_in_refresh',
+        'seconds_until_check_out_refresh',
+    ];
 
     public function resources()
     {
