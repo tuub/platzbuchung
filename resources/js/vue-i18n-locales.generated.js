@@ -187,7 +187,8 @@ export default {
                             "usage_notes_in_practice_4": "Ihren Arbeitsplatz reinigen Sie vor und nach der Benutzung mit den bereitgestellten Reinigungsmaterialien.",
                             "usage_notes_in_practice_5": "Achten Sie darauf, ausreichend Sicherheitsabstand zu anderen Personen zu halten.",
                             "usage_notes_in_practice_6": "Sanitäranlagen stehen nur zur Einzelnutzung zur Verfügung. Desinfektionsmöglichkeiten werden bereitgestellt.",
-                            "usage_notes_in_practice_7": "Beim endgültigen Verlassen des Gebäudes loggen Sie sich am Check-out-Schalter mit Ihrem Bibliotheksausweis aus und stellen den Korb zurück."
+                            "usage_notes_in_practice_7": "Beim endgültigen Verlassen des Gebäudes loggen Sie sich am Check-out-Schalter mit Ihrem Bibliotheksausweis aus und stellen den Korb zurück.",
+                            "usage_notes_in_practice_8": "Auch wenn Sie im Anschluss einen weiteren Zeitraum gebucht haben, räumen Sie bitte Ihren Arbeitsplatz, loggen Sie sich aus, stellen den Korb zurück und verlassen das Gebäude. Zu Beginn des neuen Zeitraum loggen Sie sich erneut ein."
                         },
                         "mathe": {
                             "usage_notes_in_practice_1": "Nach dem Betreten des Mathematik-Gebäudes zeigen Sie bitte die Buchungsbestätigung ausgedruckt oder auf Ihrem Smartphone an der Pförtnerloge vor.",

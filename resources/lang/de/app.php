@@ -175,8 +175,6 @@ return [
                 'usage_notes_general_3' => 'Bringen Sie Arbeitsmaterialien wie Laptop, Stifte und Papier mit.',
                 'usage_notes_general_4' => 'Für den Einlass ins Gebäude ist das Vorzeigen Ihres Bibliotheksausweises (bei TU-Studierenden der Studierendenausweis) erforderlich.',
                 'usage_notes_general_5' => 'Aufgrund der Regulierung des Zutritts zum Gebäude kann es zu Wartezeiten kommen. Bitte planen Sie dies ein.',
-                //'usage_notes_general_6' => 'Das Tragen eines Mund-Nasen-Schutz ist verpflichtend, soweit sie sich
-                // nicht auf ihrem Sitzplatz aufhalten.',
                 'usage_notes_general_6' => 'Das Tragen eines Mund-Nasen-Schutzes ist verpflichtend, auch am Arbeitsplatz. Beachten Sie die aktuellen Hinweise auf den Webseiten der Bibliothek unter <a href="https://www.ub.tu-berlin.de/aktuelles/coronafaq/#c55102">https://www.ub.tu-berlin.de/aktuelles/coronafaq/#c55102</a>.',
                 'usage_notes_general_7' => 'Ihre Reservierung gilt jeweils für den gesamten gebuchten Zeitraum. Sie verfällt nicht automatisch, wenn Sie sich erst im Laufe des Tages oder gar nicht einchecken. Stornieren Sie daher Ihre Buchung, falls Sie den Termin nicht wahrnehmen können, damit andere die Chance haben, den Platz zu buchen.',
             ],
@@ -190,6 +188,7 @@ return [
                     'usage_notes_in_practice_5' => 'Achten Sie darauf, ausreichend Sicherheitsabstand zu anderen Personen zu halten.',
                     'usage_notes_in_practice_6' => 'Sanitäranlagen stehen nur zur Einzelnutzung zur Verfügung. Desinfektionsmöglichkeiten werden bereitgestellt.',
                     'usage_notes_in_practice_7' => 'Beim endgültigen Verlassen des Gebäudes loggen Sie sich am Check-out-Schalter mit Ihrem Bibliotheksausweis aus und stellen den Korb zurück.',
+                    'usage_notes_in_practice_8' => 'Auch wenn Sie im Anschluss einen weiteren Zeitraum gebucht haben, räumen Sie bitte Ihren Arbeitsplatz, loggen Sie sich aus, stellen den Korb zurück und verlassen das Gebäude. Zu Beginn des neuen Zeitraum loggen Sie sich erneut ein.',
                 ],
                 'mathe' => [
                     'usage_notes_in_practice_1' => 'Nach dem Betreten des Mathematik-Gebäudes zeigen Sie bitte die Buchungsbestätigung ausgedruckt oder auf Ihrem Smartphone an der Pförtnerloge vor.',
