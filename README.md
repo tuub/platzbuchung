@@ -65,9 +65,10 @@ You will then need to add an `.env` file with your configuration. A boilerplate 
 | TELESCOPE_ENABLED | Whether the debug tool Telescope" should be available under &lt;APP_URL&gt;/telescope | false
 | AUTH_ENDPOINT | Our external authentication server | "https://external.auth.webservice"
 | AUTH_METHOD | Authentication type | possible: "alma", "paia" (GBV), "eloquent" (laravel built-in authentication system)
-| REPORT_PROCESS_SERVER_HOST | Remote processing server host without protocol, for SCPing the user report (see below) | "remote.process.server" |
-| REPORT_PROCESS_SERVER_USER | Remote processing server SSH user, for SCPing the user report (see below) | "remote.process.server.ssh.user" |
-| REPORT_PROCESS_SERVER_FILE_PATH | Remote processing server file path, for SCPing the user report (see below) | "/filepath/at/remote/process/server.txt" |
+| REPORT_PROCESS_SERVER_HOST | Remote processing server host without protocol, for SCPing the user report to a remote server (see below) | "remote.process.server" |
+| REPORT_PROCESS_SERVER_USER | Remote processing server SSH user, for SCPing the user report to a remote server (see below) | "remote.process.server.ssh.user" |
+| REPORT_PROCESS_SERVER_FILE_PATH | Remote processing server file path, for SCPing the user report to a remote server (see below) | "/filepath/at/remote/process/" |
+| REPORT_PROCESS_SERVER_FILE_NAME_PATTERN | Remote processing server file name pattern, for SCPing the user report to a remote server (see below). `[LOCATION]` and `[DATE]` get replaced with the given command arguments (see below). | "filename_[LOCATION]_[DATE].file_extension" |
 | STATS_REPORT_SUBJECT | Mail subject for daily statistics (see below) | "Tagesstatistik Buchungssystem" |
 | STATS_REPORT_RECIPIENT | Mail recipient(s) for daily statistics (separate multiple with comma) | info@example.org |
 | LOG_CHANNEL | The default channel, pointing to &lt;APP_DIR&gt;/storage/logs/laravel.log | stack |

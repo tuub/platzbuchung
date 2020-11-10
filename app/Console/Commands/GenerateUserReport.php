@@ -43,6 +43,7 @@ class GenerateUserReport extends Command
     {
         try {
             $date = Carbon::parse($this->argument('date'));
+            $location = strtolower($this->argument('location'));
             $check_ins = CheckIn::whereDate('check_in', $date)->get();
             $users = collect();
             $local_file_path = storage_path() . '/app/user_report.' . $date->format('Ymd') . '.txt';
@@ -50,10 +51,11 @@ class GenerateUserReport extends Command
             $remote_host = env('REPORT_PROCESS_SERVER_HOST');
             $remote_user = env('REPORT_PROCESS_SERVER_USER');
             $remote_file_path = env('REPORT_PROCESS_SERVER_FILE_PATH');
+            $remote_file_name_pattern = env('REPORT_PROCESS_SERVER_FILE_NAME_PATTERN');
 
             foreach ($check_ins as $check_in) {
-                $location = $check_in->booking()->withTrashed()->first()->resource->location;
-                if ($location->uid === $this->argument('location')) {
+                $check_in_location = $check_in->booking()->withTrashed()->first()->resource->location;
+                if ($check_in_location->uid === $location) {
                     $users->push([
                         'barcode' => $check_in->user->barcode,
                         'phone' => $check_in->user->phone,
@@ -62,7 +64,7 @@ class GenerateUserReport extends Command
                         'time_until' => $check_in ?
                             Carbon::parse($check_in->check_out)->format('H:i') :
                             Carbon::parse($check_in->booking()->withTrashed()->first()->end)->format('H:i'),
-                        'resource' => $location->name. ', ' . $check_in->booking()->withTrashed()->first()->resource->name,
+                        'resource' => $check_in_location->name. ', ' . $check_in->booking()->withTrashed()->first()->resource->name,
                     ]);
                 }
             }
@@ -82,8 +84,9 @@ class GenerateUserReport extends Command
                 $this->info('Successfully generated user report.');
 
                 try {
-                    $this->line('Sending user report to processing server.');
-                    exec('scp ' . $local_file_path . ' ' . $remote_user . '@' . $remote_host . ':' . $remote_file_path);
+                    $target_file = $remote_file_path . str_replace(['[LOCATION]', '[DATE]'], [$location, $date->format('Ymd')], $remote_file_name_pattern);
+                    $this->line('Sending user report "' . $target_file . '" to processing server "' . $remote_host . '".');
+                    exec('scp ' . $local_file_path . ' ' . $remote_user . '@' . $remote_host . ':' . $target_file);
                 } catch (Exception $e) {
                     $this->warn('Error in file sending: ' . $e->getMessage());
                     $this->error('EXIT');
