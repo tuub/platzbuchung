@@ -49,7 +49,7 @@
             </b-form-group>
             <b-form-group id="seconds_until_check_out_refresh-field" :label="$t('app.admin.locations.form.fields.seconds_until_check_out_refresh.label')" label-for="seconds_until_check_out_refresh" class="font-weight-bold text-uppercase">
                 <b-form-input id="seconds_until_check_out_refresh" v-model="location.seconds_until_check_out_refresh" type="text" required placeholder=""></b-form-input>
-                <b-form-input id="seconds_until_check_out_refresh" v-model="location.sseconds_until_check_out_refresh" type="range" min="0" max="10"></b-form-input>
+                <b-form-input id="seconds_until_check_out_refresh" v-model="location.seconds_until_check_out_refresh" type="range" min="0" max="10"></b-form-input>
             </b-form-group>
             <b-button type="button" @click="storeLocation" class="text-uppercase" variant="success" :disabled="submitted" v-text="submitted ?
                 $t('app.admin.locations.form.submit_progress') :
@@ -57,7 +57,7 @@
             </b-button>
             <b-button type="button" @click="closeForm" class="text-uppercase" variant="danger" :disabled="submitted" v-text="$t('app.admin.locations.form.cancel_value')"></b-button>
         </b-form>
-    </div>
+    </div>  
 </template>
 
 <script>
