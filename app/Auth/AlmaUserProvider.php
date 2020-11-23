@@ -121,7 +121,7 @@ class AlmaUserProvider implements UserProvider
             ]);
         } else {
             $user = User::create([
-                'username' => $userData['username'],
+                'username' => $userData['username'] !== null ? $userData['username'] : '',
                 'barcode' => $userData['barcode'],
                 'email' => $userData['email'],
                 'is_healthy' => $userData['is_healthy'],
