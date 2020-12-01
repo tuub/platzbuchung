@@ -173,7 +173,7 @@ return [
                 'usage_notes_general_1' => 'Eine Arbeitsplatznutzung ist nur nach vorheriger Anmeldung im Buchungssystem möglich.',
                 'usage_notes_general_2' => 'Vor Ort erfolgt über das Ein- und Auschecken eine Anwesenheitsdokumentation nach §3 <a href="https://www.berlin.de/corona/massnahmen/verordnung/" target="_blank">SARS-CoV-2-Infektionsschutzverordnung</a>.',
                 'usage_notes_general_3' => 'Bringen Sie Arbeitsmaterialien wie Laptop, Stifte und Papier mit.',
-                'usage_notes_general_4' => 'Für den Einlass ins Gebäude ist das Vorzeigen Ihres Bibliotheksausweises (bei TU-Studierenden der Studierendenausweis) erforderlich.',
+                'usage_notes_general_4' => 'Für den Einlass ins Gebäude ist das Vorzeigen Ihres Bibliotheksausweises (bei TU-Studierenden der Studierendenausweis) und dieser Terminbestätigung erforderlich.',
                 'usage_notes_general_5' => 'Aufgrund der Regulierung des Zutritts zum Gebäude kann es zu Wartezeiten kommen. Bitte planen Sie dies ein.',
                 'usage_notes_general_6' => 'Das Tragen eines Mund-Nasen-Schutzes ist verpflichtend, auch am Arbeitsplatz. Beachten Sie die aktuellen Hinweise auf den Webseiten der Bibliothek unter <a href="https://www.ub.tu-berlin.de/aktuelles/coronafaq/#c55102">https://www.ub.tu-berlin.de/aktuelles/coronafaq/#c55102</a>.',
                 'usage_notes_general_7' => 'Ihre Reservierung gilt jeweils für den gesamten gebuchten Zeitraum. Sie verfällt nicht automatisch, wenn Sie sich erst im Laufe des Tages oder gar nicht einchecken. Stornieren Sie daher Ihre Buchung, falls Sie den Termin nicht wahrnehmen können, damit andere die Chance haben, den Platz zu buchen.',
