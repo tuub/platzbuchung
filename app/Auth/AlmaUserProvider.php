@@ -107,32 +107,36 @@ class AlmaUserProvider implements UserProvider
                     'email' => $response['result']['email_address'],
                     'is_healthy' => true,
                 ];
+
+		        $user = $userData ? User::where('username', $userData['username'])->first() : null;
+
+                if ($user) {
+                    $user->update([
+                        'barcode' => $userData['barcode'],
+                        'email' => $userData['email'],
+                        'is_healthy' => true,
+                        'last_login' => Carbon::now(),
+                    ]);
+                } else {
+                    $user = User::create([
+                        'username' => $userData['username'] !== null ? $userData['username'] : '',
+                        'barcode' => $userData['barcode'],
+                        'email' => $userData['email'],
+                        'is_healthy' => true,
+                        'last_login' => Carbon::now(),
+                    ]);
+                }
+                $log['User'] = $user;
             }
         }
 
-        $user = $userData ? User::where('username', $userData['username'])->first() : null;
-
-        if ($user) {
-            $user->update([
-                'barcode' => $userData['barcode'],
-                'email' => $userData['email'],
-                'is_healthy' => $userData['is_healthy'],
-                'last_login' => Carbon::now(),
-            ]);
-        } else {
-            $user = User::create([
-                'username' => $userData['username'] !== null ? $userData['username'] : '',
-                'barcode' => $userData['barcode'],
-                'email' => $userData['email'],
-                'is_healthy' => $userData['is_healthy'],
-                'last_login' => Carbon::now(),
-            ]);
-        }
-        $log['User'] = $user;
-
         Log::channel('auth')->info(Utility::implodeWithKeys(', ', $log, ' = '));
 
-        return $user;
+        if ($user) {
+            return $user;
+        }
+
+        return null;
     }
 
     /**
