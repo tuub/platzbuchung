@@ -243,6 +243,9 @@ return [
             'total_users' => 'Anzahl Gesamtkunden im System',
             'total_logins' => 'Anzahl Logins im System',
         ],
+        'closing_announcement' => [
+            'subject' => 'Keine Arbeitsplatznutzung ab 16.12.2020 in den Bibliotheken der TU Berlin und der Universitätsbibliothek der UdK Berlin',         
+        ]
     ],
     'checkin' => [
         'title' => 'Check-In',
